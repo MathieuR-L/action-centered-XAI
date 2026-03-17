@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+paper/*.aux
+paper/*.bcf
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.run.xml
