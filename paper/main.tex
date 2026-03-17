@@ -150,6 +150,8 @@ Modality Ablation & \textcolor{green}{\cmark} (8.09 ms) & \textcolor{green}{\cma
 \textit{\cmark = suitable, \cmark* = partially suitable, \xmark = unsuitable. Ratings are derived from the controlled benchmark: low-latency triage favored methods below 15 ms/case; diagnosis favored causal alignment and low leakage; audit favored stability or explicit evidence traces; monitoring favored direct OOD-shift observability.}
 \end{table}
 
+\textbf{Why Table \ref{tab:method_suitability} matters.} This table is the operational core of ACE: it converts raw explanation behavior into a clinician-facing action map. Its main patterns were not a one-dataset accident. In the six-domain cross-dataset suite added later in Section \ref{sec:ace_cross_dataset_suite}, attention was the fastest explainer on all six public medical domains (mean $3.16$ ms/case), LIME and KernelSHAP remained roughly $55\times$ and $138\times$ slower than attention on average, and Grad-CAM still showed non-zero cross-modal leakage (mean $0.031$). Integrated Gradients and KernelSHAP achieved the strongest mean causal-alignment scores in that broader suite ($0.867$ and $0.883$), reinforcing the basic trade-off structure summarized here.
+
 \textbf{Implications:} The controlled benchmark reveals that (1) no single method meets all clinical needs, (2) computational efficiency is non-negotiable for deployment, and (3) intervention-based tests are more informative than fidelity alone when spurious multimodal cues are present. The remainder of this survey is structured around these clinical actions, evaluating existing research through the lens of explanation \textit{usability} rather than algorithmic novelty.
 
 \section{MXAI Methods, Architectures, and Applications in Healthcare}
@@ -803,6 +805,47 @@ MuCR \cite{li2025multimodalcausalreasoningbenchmark} & Causal reasoning & Cross-
 \end{tabular}}
 \label{tab:evaluation_frameworks}
 \end{table}
+
+\subsection{ACE Cross-Dataset Stress-Test Benchmark}
+\label{sec:ace_cross_dataset_suite}
+
+To complement the single-domain proof-of-concept from Section \ref{sec:controlled_experiments}, we ran the same ACE evaluation pipeline on six public MedMNIST derivatives spanning hematology, dermatology, retinal OCT, abdominal CT, histopathology, and chest X-ray screening. Each dataset was recast as a controlled multimodal task by pairing the image with the same four synthetic clinical covariates used in Section \ref{sec:controlled_experiments}, including a deliberately spurious hospital feature that was correlated with the label during training and randomized at test time. This cross-dataset suite was implemented in \texttt{experiments/mxai\_benchmark\_suite.py}, trained the same multimodal fusion backbone for three epochs on 1,500 training cases per domain, and measured explanations on eight OOD test cases per dataset.
+
+\begin{table}[h!]
+\centering
+\caption{Public domains included in the ACE cross-dataset suite}
+\label{tab:ace_suite_domains}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Dataset} & \textbf{Clinical Domain} & \textbf{Classes} & \textbf{Base Task} \\ \hline
+BloodMNIST & Hematology microscopy & 8 & Multi-class \\ \hline
+DermaMNIST & Dermatology lesions & 7 & Multi-class \\ \hline
+OCTMNIST & Retinal OCT screening & 4 & Multi-class \\ \hline
+OrganAMNIST & Abdominal CT slices & 11 & Multi-class \\ \hline
+PathMNIST & Histopathology tiles & 9 & Multi-class \\ \hline
+PneumoniaMNIST & Chest X-ray triage & 2 & Binary classification \\ \hline
+\end{tabular}
+\end{table}
+
+Figure \ref{fig:ace_suite_method_profile} summarizes the aggregate method profile. Attention remained the fastest explainer across all six domains, with a mean latency of $3.16$ ms/case and a fastest-method rank on all six datasets. Grad-CAM was the next-fastest visual method at $5.57$ ms/case, but retained a mean leakage score of $0.031$, echoing the concern already visible in the single-domain benchmark. Perturbational explainers remained substantially more expensive: LIME averaged $173.87$ ms/case and KernelSHAP $437.03$ ms/case, corresponding to roughly $55\times$ and $138\times$ the runtime of attention. For diagnosis-style feature ranking, Integrated Gradients and KernelSHAP showed the strongest mean causal-alignment scores ($0.867$ and $0.883$), while the retrieval proxy remained fast ($3.85$ ms/case) but only moderately pure (top-5 evidence purity $0.492$).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{ace_suite_method_profile.png}
+    \caption{Aggregate method profile across the six-domain ACE suite. Left: mean runtime. Middle: mean seed stability. Right: mean causal alignment.}
+    \label{fig:ace_suite_method_profile}
+\end{figure}
+
+Figure \ref{fig:ace_suite_rank_consistency} makes the transportability claim explicit. The latency ranking was highly stable: attention was fastest on every dataset, followed by other intrinsic or lightweight methods. Causal-alignment leadership varied more by domain, alternating mainly between Integrated Gradients, KernelSHAP, and LIME, but the broad picture remained the same as in Table \ref{tab:method_suitability}: clinical usability depends on which action is being supported, not on a single global notion of ``best'' explanation.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{ace_suite_rank_consistency.png}
+    \caption{Per-dataset rank consistency in the ACE suite. Left: latency rank (1 = fastest). Right: causal-alignment rank (1 = strongest alignment).}
+    \label{fig:ace_suite_rank_consistency}
+\end{figure}
+
+This larger public benchmark does not replace hospital-scale validation or reader studies, but it materially strengthens the survey's central operational claim: the trade-offs summarized in Table \ref{tab:method_suitability} are not artifacts of one dermatology benchmark. They recur across hematology, dermatology, retinal OCT, abdominal CT, histopathology, and chest X-ray tasks, making ACE a more transportable deployment rubric for multimodal medical XAI.
 
 
 \section{Challenges and Future Directions}

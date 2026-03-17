@@ -6,10 +6,16 @@ This folder is a GitHub-ready reproducibility package for the controlled experim
 
 - `experiments/mxai_assessment.py`
   Reproduces the controlled multimodal benchmark, trains the baseline and causal-invariance models, and exports the measured metrics.
+- `experiments/mxai_benchmark_suite.py`
+  Runs the six-domain cross-dataset ACE suite used to strengthen Section 7 and validate Table 3 across multiple medical domains.
 - `experiments/make_paper_figures.py`
   Regenerates the paper figures from the exported JSON results.
+- `experiments/make_suite_figures.py`
+  Regenerates the Section 7 cross-dataset benchmark figures.
 - `experiments/results/ace_experiment_results.json`
   Frozen results used in the current manuscript.
+- `experiments/results/ace_benchmark_suite_results.json`
+  Frozen six-domain benchmark results used in the Section 7 benchmark subsection.
 - `paper/`
   The LaTeX manuscript, bibliography, generated PDF, and all figures needed to compile the paper.
 - `TRACEABILITY.md`
@@ -18,6 +24,10 @@ This folder is a GitHub-ready reproducibility package for the controlled experim
   File hashes for the canonical manuscript and experiment artifacts bundled here.
 - `run_repro.py`
   Convenience entrypoint that reruns the benchmark and regenerates figures with the paper configuration.
+- `experiments/run_extended_benchmark.sh`
+  Unix launcher for the broader cross-dataset benchmark.
+- `experiments/run_extended_benchmark.ps1`
+  PowerShell launcher for the broader cross-dataset benchmark.
 
 ## Environment
 
@@ -58,6 +68,21 @@ This writes:
 - `paper/ace_benchmark_overview.png`
 - `paper/ace_spurious_signal.png`
 
+## Reproduce the Section 7 Cross-Dataset Suite
+
+Run the broader public benchmark:
+
+```bash
+python experiments/mxai_benchmark_suite.py
+python experiments/make_suite_figures.py
+```
+
+This writes:
+
+- `experiments/results/ace_benchmark_suite_results.json`
+- `paper/ace_suite_method_profile.png`
+- `paper/ace_suite_rank_consistency.png`
+
 ## Compile the Paper
 
 From the `paper/` directory:
@@ -80,6 +105,7 @@ python audit_support.py
 ## Notes
 
 - The benchmark is intentionally controlled and lightweight. It is designed to validate ACE-style assessments, not to simulate a full clinical deployment stack.
+- The Section 7 suite broadens domain coverage, but it still uses the same controlled multimodal setup rather than institution-specific multimodal hospital pipelines.
 - The retrieval experiment is a retrieval-only proxy, not a full V-RAG report-generation pipeline.
 - The manuscript was edited so that method assessments are either experimentally grounded by this benchmark or explicitly literature-grounded by citation.
 - Example workflows that were not reproduced locally are labeled as illustrative in the manuscript rather than presented as original empirical case studies.

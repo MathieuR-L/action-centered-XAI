@@ -7,12 +7,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+import medmnist
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from captum.attr import IntegratedGradients, KernelShap, LayerGradCam, Lime
-from medmnist import DermaMNIST
+from medmnist import INFO
 from sklearn.neighbors import NearestNeighbors
 from torch.utils.data import DataLoader, Dataset, Subset
 from torchvision import transforms
@@ -26,8 +27,8 @@ FEATURE_NAMES = [
     "admin_noise",
 ]
 NUM_TAB_FEATURES = 4
-NUM_CLASSES = 7
 IMAGE_SIZE = 28
+DEFAULT_DATASET = "dermamnist"
 
 
 def set_seed(seed: int) -> None:
@@ -61,37 +62,53 @@ def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
     return float(np.dot(a, b) / denom)
 
 
-def stable_seed(split: str, index: int, ood_hospital_bias: bool) -> int:
+def stable_seed(dataset_key: str, split: str, index: int, ood_hospital_bias: bool) -> int:
+    dataset_offset = sum(ord(char) for char in dataset_key) * 1_009
     base = 13 if split == "train" else 29 if split == "val" else 47
     modifier = 97 if ood_hospital_bias else 0
-    return base * 100_003 + index * 17 + modifier
+    return dataset_offset + base * 100_003 + index * 17 + modifier
 
 
-class ControlledDermaMNIST(Dataset):
+class ControlledMedMNIST(Dataset):
     def __init__(
         self,
+        dataset_key: str,
         split: str,
         *,
         transform: transforms.Compose,
         ood_hospital_bias: bool = False,
         limit: int | None = None,
     ) -> None:
-        self.base = DermaMNIST(split=split, download=True, size=IMAGE_SIZE)
+        if dataset_key not in INFO:
+            raise ValueError(f"Unknown MedMNIST dataset: {dataset_key}")
+        info = INFO[dataset_key]
+        if info["task"] not in {"binary-class", "multi-class"}:
+            raise ValueError(f"Unsupported task for {dataset_key}: {info['task']}")
+        dataset_class = getattr(medmnist, info["python_class"])
+        self.base = dataset_class(split=split, download=True, size=IMAGE_SIZE)
+        self.dataset_key = dataset_key
         self.transform = transform
         self.split = split
         self.ood_hospital_bias = ood_hospital_bias
         self.indices = list(range(len(self.base)))
         if limit is not None:
             self.indices = self.indices[:limit]
-        self.biomarker_centers = np.array([0.15, 0.25, 0.35, 0.50, 0.62, 0.78, 0.90], dtype=np.float32)
-        self.age_centers = np.array([0.72, 0.18, 0.61, 0.28, 0.83, 0.41, 0.55], dtype=np.float32)
-        self.hospital_centers = np.array([0.10, 0.24, 0.38, 0.52, 0.66, 0.80, 0.94], dtype=np.float32)
+        self.num_classes = len(info["label"])
+
+        rng = np.random.default_rng(sum(ord(char) for char in dataset_key))
+        biomarker_curve = np.linspace(0.12, 0.88, self.num_classes, dtype=np.float32)
+        age_curve = np.linspace(0.84, 0.18, self.num_classes, dtype=np.float32)
+        hospital_curve = np.linspace(0.08, 0.94, self.num_classes, dtype=np.float32)
+        rng.shuffle(age_curve)
+        self.biomarker_centers = np.clip(biomarker_curve + rng.normal(0.0, 0.03, self.num_classes), 0.05, 0.95)
+        self.age_centers = np.clip(age_curve + rng.normal(0.0, 0.04, self.num_classes), 0.05, 0.95)
+        self.hospital_centers = np.clip(hospital_curve + rng.normal(0.0, 0.02, self.num_classes), 0.02, 0.98)
 
     def __len__(self) -> int:
         return len(self.indices)
 
     def _tabular_features(self, label: int, index: int) -> np.ndarray:
-        rng = np.random.default_rng(stable_seed(self.split, index, self.ood_hospital_bias))
+        rng = np.random.default_rng(stable_seed(self.dataset_key, self.split, index, self.ood_hospital_bias))
         biomarker = np.clip(self.biomarker_centers[label] + rng.normal(0.0, 0.12), 0.0, 1.0)
         age_risk = np.clip(self.age_centers[label] + rng.normal(0.0, 0.16), 0.0, 1.0)
         if self.ood_hospital_bias:
@@ -104,6 +121,8 @@ class ControlledDermaMNIST(Dataset):
     def __getitem__(self, item: int) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         base_index = self.indices[item]
         image, label = self.base[base_index]
+        if hasattr(image, "convert"):
+            image = image.convert("RGB")
         image_tensor = self.transform(image)
         label_value = int(label[0])
         tabular = torch.tensor(self._tabular_features(label_value, base_index), dtype=torch.float32)
@@ -129,8 +148,9 @@ class ImageEncoder(nn.Module):
 
 
 class MultimodalAttentionNet(nn.Module):
-    def __init__(self, hidden_dim: int = 96, num_heads: int = 4, dropout: float = 0.1) -> None:
+    def __init__(self, num_classes: int, hidden_dim: int = 96, num_heads: int = 4, dropout: float = 0.1) -> None:
         super().__init__()
+        self.num_classes = num_classes
         self.image_encoder = ImageEncoder(hidden_dim)
         self.tabular_projections = nn.ModuleList([nn.Linear(1, hidden_dim) for _ in range(NUM_TAB_FEATURES)])
         self.feature_embeddings = nn.Parameter(torch.randn(NUM_TAB_FEATURES, hidden_dim) * 0.02)
@@ -145,7 +165,7 @@ class MultimodalAttentionNet(nn.Module):
             nn.Dropout(dropout),
             nn.Linear(hidden_dim * 2, hidden_dim),
         )
-        self.head = nn.Linear(hidden_dim, NUM_CLASSES)
+        self.head = nn.Linear(hidden_dim, num_classes)
 
     def _tabular_tokens(self, tabular: torch.Tensor) -> torch.Tensor:
         tokens = []
@@ -270,7 +290,7 @@ def train_model(
     return model, history
 
 
-def evaluate_model(model: nn.Module, loader: DataLoader, device: torch.device) -> Dict[str, float]:
+def evaluate_model(model: MultimodalAttentionNet, loader: DataLoader, device: torch.device) -> Dict[str, float]:
     model.eval()
     all_preds: List[int] = []
     all_labels: List[int] = []
@@ -286,7 +306,7 @@ def evaluate_model(model: nn.Module, loader: DataLoader, device: torch.device) -
     accuracy = float((labels_arr == preds_arr).mean())
 
     macro_f1_values = []
-    for class_index in range(NUM_CLASSES):
+    for class_index in range(model.num_classes):
         tp = np.sum((preds_arr == class_index) & (labels_arr == class_index))
         fp = np.sum((preds_arr == class_index) & (labels_arr != class_index))
         fn = np.sum((preds_arr != class_index) & (labels_arr == class_index))
@@ -665,75 +685,76 @@ def subset_for_explanations(dataset: Dataset, size: int) -> Dataset:
     return Subset(dataset, list(range(min(size, len(dataset)))))
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Controlled experiments for ACE-aligned multimodal XAI assessment.")
-    parser.add_argument("--epochs", type=int, default=6)
-    parser.add_argument("--batch-size", type=int, default=128)
-    parser.add_argument("--lr", type=float, default=3e-4)
-    parser.add_argument("--seed", type=int, default=7)
-    parser.add_argument("--explain-samples", type=int, default=12)
-    parser.add_argument("--train-limit", type=int, default=5000)
-    parser.add_argument("--output-dir", type=str, default="experiments/results")
-    args = parser.parse_args()
-
-    set_seed(args.seed)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+def run_assessment(
+    *,
+    dataset_key: str,
+    epochs: int,
+    batch_size: int,
+    lr: float,
+    seed: int,
+    explain_samples: int,
+    train_limit: int,
+    device: torch.device,
+    include_causal_explanations: bool = True,
+) -> Dict[str, object]:
     transform = transforms.Compose([transforms.ToTensor()])
+    info = INFO[dataset_key]
 
-    train_dataset = ControlledDermaMNIST(
+    train_dataset = ControlledMedMNIST(
+        dataset_key,
         "train",
         transform=transform,
         ood_hospital_bias=False,
-        limit=args.train_limit,
+        limit=train_limit,
     )
-    val_dataset = ControlledDermaMNIST("val", transform=transform, ood_hospital_bias=False)
-    test_dataset = ControlledDermaMNIST("test", transform=transform, ood_hospital_bias=False)
-    ood_test_dataset = ControlledDermaMNIST("test", transform=transform, ood_hospital_bias=True)
+    val_dataset = ControlledMedMNIST(dataset_key, "val", transform=transform, ood_hospital_bias=False)
+    test_dataset = ControlledMedMNIST(dataset_key, "test", transform=transform, ood_hospital_bias=False)
+    ood_test_dataset = ControlledMedMNIST(dataset_key, "test", transform=transform, ood_hospital_bias=True)
 
-    train_loader = make_loader(train_dataset, args.batch_size, shuffle=True)
-    eval_train_loader = make_loader(train_dataset, args.batch_size, shuffle=False)
-    val_loader = make_loader(val_dataset, args.batch_size, shuffle=False)
-    test_loader = make_loader(test_dataset, args.batch_size, shuffle=False)
-    ood_loader = make_loader(ood_test_dataset, args.batch_size, shuffle=False)
-    explanation_loader = make_loader(subset_for_explanations(ood_test_dataset, args.explain_samples), 1, shuffle=False)
+    train_loader = make_loader(train_dataset, batch_size, shuffle=True)
+    eval_train_loader = make_loader(train_dataset, batch_size, shuffle=False)
+    val_loader = make_loader(val_dataset, batch_size, shuffle=False)
+    test_loader = make_loader(test_dataset, batch_size, shuffle=False)
+    ood_loader = make_loader(ood_test_dataset, batch_size, shuffle=False)
+    explanation_loader = make_loader(subset_for_explanations(ood_test_dataset, explain_samples), 1, shuffle=False)
 
     config = TrainingConfig(
-        epochs=args.epochs,
-        batch_size=args.batch_size,
-        lr=args.lr,
+        epochs=epochs,
+        batch_size=batch_size,
+        lr=lr,
         causal_lambda=0.75,
     )
 
-    baseline_model = MultimodalAttentionNet().to(device)
+    baseline_model = MultimodalAttentionNet(num_classes=train_dataset.num_classes).to(device)
     baseline_model, baseline_history = train_model(
         baseline_model,
         train_loader,
         val_loader,
         device,
         config,
-        seed=args.seed,
+        seed=seed,
         causal_invariance=False,
     )
 
-    paired_baseline_model = MultimodalAttentionNet().to(device)
+    paired_baseline_model = MultimodalAttentionNet(num_classes=train_dataset.num_classes).to(device)
     paired_baseline_model, _ = train_model(
         paired_baseline_model,
         train_loader,
         val_loader,
         device,
         config,
-        seed=args.seed + 1,
+        seed=seed + 1,
         causal_invariance=False,
     )
 
-    causal_model = MultimodalAttentionNet().to(device)
+    causal_model = MultimodalAttentionNet(num_classes=train_dataset.num_classes).to(device)
     causal_model, causal_history = train_model(
         causal_model,
         train_loader,
         val_loader,
         device,
         config,
-        seed=args.seed,
+        seed=seed,
         causal_invariance=True,
     )
 
@@ -757,33 +778,35 @@ def main() -> None:
         eval_train_loader,
         device,
     )
-    causal_explanations = compute_explanations(
-        causal_model,
-        "causal_invariance",
-        baseline_model,
-        explanation_loader,
-        ood_loader,
-        eval_train_loader,
-        device,
-    )
+    causal_explanations = {}
+    if include_causal_explanations:
+        causal_explanations = compute_explanations(
+            causal_model,
+            "causal_invariance",
+            baseline_model,
+            explanation_loader,
+            ood_loader,
+            eval_train_loader,
+            device,
+        )
 
-    output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    result_path = output_dir / "ace_experiment_results.json"
-    payload = {
+    return {
         "config": {
-            "epochs": args.epochs,
-            "batch_size": args.batch_size,
-            "learning_rate": args.lr,
-            "seed": args.seed,
-            "explain_samples": args.explain_samples,
-            "train_limit": args.train_limit,
+            "epochs": epochs,
+            "batch_size": batch_size,
+            "learning_rate": lr,
+            "seed": seed,
+            "explain_samples": explain_samples,
+            "train_limit": train_limit,
             "device": str(device),
         },
         "dataset": {
-            "base_dataset": "DermaMNIST",
+            "base_dataset": info["python_class"],
+            "dataset_key": dataset_key,
             "task": "medical image classification with controlled multimodal tabular covariates",
+            "source_task": info["task"],
             "feature_names": FEATURE_NAMES,
+            "num_classes": train_dataset.num_classes,
         },
         "models": {
             "baseline": baseline_metrics,
@@ -794,6 +817,38 @@ def main() -> None:
             "causal_invariance": causal_explanations,
         },
     }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Controlled experiments for ACE-aligned multimodal XAI assessment.")
+    parser.add_argument("--dataset", type=str, default=DEFAULT_DATASET)
+    parser.add_argument("--epochs", type=int, default=6)
+    parser.add_argument("--batch-size", type=int, default=128)
+    parser.add_argument("--lr", type=float, default=3e-4)
+    parser.add_argument("--seed", type=int, default=7)
+    parser.add_argument("--explain-samples", type=int, default=12)
+    parser.add_argument("--train-limit", type=int, default=5000)
+    parser.add_argument("--output-dir", type=str, default="experiments/results")
+    parser.add_argument("--result-filename", type=str, default="ace_experiment_results.json")
+    args = parser.parse_args()
+
+    set_seed(args.seed)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    payload = run_assessment(
+        dataset_key=args.dataset,
+        epochs=args.epochs,
+        batch_size=args.batch_size,
+        lr=args.lr,
+        seed=args.seed,
+        explain_samples=args.explain_samples,
+        train_limit=args.train_limit,
+        device=device,
+        include_causal_explanations=True,
+    )
+
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    result_path = output_dir / args.result_filename
     result_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(json.dumps(payload, indent=2))
 

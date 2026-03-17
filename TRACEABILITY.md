@@ -18,6 +18,7 @@ All method assessments in the following manuscript components are backed by the 
   - Modality ablation
 - `Table 6`: controlled clinical action suitability matrix
 - `Section 6`: controlled experimental assessment of ACE claims
+- `Section 7`: ACE cross-dataset stress-test benchmark
 
 ## Exact Experimental Results Used in the Paper
 
@@ -33,6 +34,21 @@ All method assessments in the following manuscript components are backed by the 
 - KernelSHAP latency: `294.16 ms/case`
 - Grad-CAM leakage shift: `0.031` on the baseline model
 - Retrieval evidence purity: `0.52` baseline, `0.73` after causal training
+
+## Cross-Dataset Suite Results Used in the Paper
+
+These support the new Section 7 benchmark discussion:
+
+- Domains covered: `BloodMNIST`, `DermaMNIST`, `OCTMNIST`, `OrganAMNIST`, `PathMNIST`, `PneumoniaMNIST`
+- Attention mean latency across domains: `3.16 ms/case`
+- Attention fastest on: `6/6` datasets
+- Grad-CAM mean latency: `5.57 ms/case`
+- Grad-CAM mean leakage: `0.031`
+- Integrated Gradients mean causal alignment: `0.867`
+- LIME mean causal alignment: `0.867`
+- KernelSHAP mean causal alignment: `0.883`
+- Retrieval proxy mean latency: `3.85 ms/case`
+- Retrieval proxy mean top-5 evidence purity: `0.492`
 
 ## Bibliography-Backed Assessments
 
