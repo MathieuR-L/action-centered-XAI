@@ -1,0 +1,147 @@
+{
+  "config": {
+    "epochs": 4,
+    "batch_size": 128,
+    "learning_rate": 0.0003,
+    "seed": 7,
+    "explain_samples": 200,
+    "train_limit": 2000,
+    "device": "cuda"
+  },
+  "dataset": {
+    "base_dataset": "DermaMNIST",
+    "dataset_key": "dermamnist",
+    "task": "medical image classification with controlled multimodal tabular covariates",
+    "source_task": "multi-class",
+    "feature_names": [
+      "image",
+      "biomarker_score",
+      "age_risk",
+      "hospital_bias",
+      "admin_noise"
+    ],
+    "num_classes": 7
+  },
+  "models": {
+    "baseline": {
+      "id_test": {
+        "accuracy": 0.8099750623441396,
+        "macro_f1": 0.2963650893937352
+      },
+      "ood_test": {
+        "accuracy": 0.42593516209476306,
+        "macro_f1": 0.13970892492371492
+      },
+      "history": {
+        "epoch": 4,
+        "train_loss": 0.6325750455856324,
+        "train_acc": 0.784,
+        "val_acc": 0.8145563310069791,
+        "val_macro_f1": 0.30337573625941605
+      }
+    },
+    "causal_invariance": {
+      "id_test": {
+        "accuracy": 0.8538653366583541,
+        "macro_f1": 0.34442014349194167
+      },
+      "ood_test": {
+        "accuracy": 0.6518703241895262,
+        "macro_f1": 0.24148630208419747
+      },
+      "history": {
+        "epoch": 4,
+        "train_loss": 0.5734987947940826,
+        "train_acc": 0.8105,
+        "val_acc": 0.8404785643070788,
+        "val_macro_f1": 0.3287516174827072
+      }
+    }
+  },
+  "experiments": {
+    "baseline": {
+      "variant": {
+        "name": "baseline"
+      },
+      "feature_importance_ood": {
+        "image": -0.0059850374064838174,
+        "biomarker_score": 0.31421446384039897,
+        "age_risk": 0.021446384039900235,
+        "hospital_bias": 0.3162094763092269,
+        "admin_noise": 0.0014962593516208988
+      },
+      "retrieval": {
+        "latency_ms_mean": 1.9443866750134475,
+        "evidence_purity": 0.213
+      },
+      "methods": {
+        "attention": {
+          "latency_ms_mean": 1.127473244941939,
+          "stability_cosine_mean": 0.6122919949086828,
+          "causal_alignment_spearman": 0.8999999999999998,
+          "mean_scores": {
+            "image": 0.028395014284178614,
+            "biomarker_score": 0.2937772487103939,
+            "age_risk": 0.060545753538608554,
+            "hospital_bias": 0.4147396010160446,
+            "admin_noise": 0.07787091579288244
+          }
+        },
+        "integrated_gradients": {
+          "latency_ms_mean": 5.617849165037114,
+          "stability_cosine_mean": 0.7644824676596503,
+          "causal_alignment_spearman": 0.8999999999999998,
+          "mean_scores": {
+            "image": 3.568182481103577e-05,
+            "biomarker_score": 2.2191351079725425,
+            "age_risk": 0.031025437627540668,
+            "hospital_bias": 1.9828389532699657,
+            "admin_noise": 0.023198168032813556
+          }
+        },
+        "lime": {
+          "latency_ms_mean": 48.86792416988101,
+          "stability_cosine_mean": 0.7431560507529764,
+          "causal_alignment_spearman": 0.8999999999999998,
+          "mean_scores": {
+            "image": 0.046458690793879216,
+            "biomarker_score": 2.31227113223169,
+            "age_risk": 0.05616915769613115,
+            "hospital_bias": 1.7482033577753464,
+            "admin_noise": 0.050409447251004165
+          }
+        },
+        "kernel_shap": {
+          "latency_ms_mean": 127.92000090998954,
+          "stability_cosine_mean": 0.794926466682605,
+          "causal_alignment_spearman": 0.8999999999999998,
+          "mean_scores": {
+            "image": 0.11445035581753472,
+            "biomarker_score": 2.3723877221875593,
+            "age_risk": 0.13493801173986866,
+            "hospital_bias": 1.7588342456729151,
+            "admin_noise": 0.12300656410166994
+          }
+        },
+        "modality_ablation": {
+          "latency_ms_mean": 3.7212944149996474,
+          "stability_cosine_mean": 0.7611765812961909,
+          "causal_alignment_spearman": 0.8999999999999998,
+          "mean_scores": {
+            "image": 0.003181607723236084,
+            "biomarker_score": 3.277148913173005,
+            "age_risk": 0.18392041131854056,
+            "hospital_bias": 2.6377746306639165,
+            "admin_noise": 0.03409711942076683
+          }
+        },
+        "gradcam": {
+          "latency_ms_mean": 2.2353075650335086,
+          "stability_cosine_mean": 0.7696858772298356,
+          "leakage_shift_mean": 0.07527201684985116
+        }
+      }
+    },
+    "causal_invariance": {}
+  }
+}
