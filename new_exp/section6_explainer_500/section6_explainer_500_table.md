@@ -1,11 +1,11 @@
-# Section 6 Explainer Results on 500 OOD Cases
+# Section 6 Baseline Explainer Results on 500 OOD Cases
 
-| Method | Latency ms | Seed stability | Causal alignment | Grad-CAM leakage |
-| --- | --- | --- | --- | --- |
-| attention | 1.06 | 0.936 | 0.700 |  |
-| integrated_gradients | 5.31 | 0.933 | 0.800 |  |
-| lime | 47.58 | 0.898 | 0.800 |  |
-| kernel_shap | 126.61 | 0.904 | 0.900 |  |
-| modality_ablation | 3.69 | 0.931 | 0.900 |  |
-| gradcam | 2.16 | 0.835 |  | 0.080 |
-| retrieval_proxy | 3.41 |  |  |  |
+| Method | Latency ms | Seed stability | Causal alignment | Grad-CAM leakage | Evidence purity |
+| --- | --- | --- | --- | --- | --- |
+| attention | 1.15 | 0.847 | 0.900 |  |  |
+| integrated_gradients | 5.62 | 0.875 | 1.000 |  |  |
+| lime | 48.75 | 0.826 | 0.900 |  |  |
+| kernel_shap | 142.66 | 0.844 | 1.000 |  |  |
+| modality_ablation | 3.98 | 0.827 | 1.000 |  |  |
+| gradcam | 2.30 | 0.868 |  | 0.056 |  |
+| retrieval_proxy | 2.35 |  |  |  | 0.413 |

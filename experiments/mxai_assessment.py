@@ -696,7 +696,9 @@ def run_assessment(
     train_limit: int,
     device: torch.device,
     include_causal_explanations: bool = True,
+    causal_lambda: float = 0.75,
 ) -> Dict[str, object]:
+    set_seed(seed)
     transform = transforms.Compose([transforms.ToTensor()])
     info = INFO[dataset_key]
 
@@ -722,7 +724,7 @@ def run_assessment(
         epochs=epochs,
         batch_size=batch_size,
         lr=lr,
-        causal_lambda=0.75,
+        causal_lambda=causal_lambda,
     )
 
     baseline_model = MultimodalAttentionNet(num_classes=train_dataset.num_classes).to(device)
@@ -758,6 +760,19 @@ def run_assessment(
         causal_invariance=True,
     )
 
+    paired_causal_model = None
+    if include_causal_explanations:
+        paired_causal_model = MultimodalAttentionNet(num_classes=train_dataset.num_classes).to(device)
+        paired_causal_model, _ = train_model(
+            paired_causal_model,
+            train_loader,
+            val_loader,
+            device,
+            config,
+            seed=seed + 1,
+            causal_invariance=True,
+        )
+
     baseline_metrics = {
         "id_test": evaluate_model(baseline_model, test_loader, device),
         "ood_test": evaluate_model(baseline_model, ood_loader, device),
@@ -780,10 +795,11 @@ def run_assessment(
     )
     causal_explanations = {}
     if include_causal_explanations:
+        assert paired_causal_model is not None
         causal_explanations = compute_explanations(
             causal_model,
             "causal_invariance",
-            baseline_model,
+            paired_causal_model,
             explanation_loader,
             ood_loader,
             eval_train_loader,
@@ -798,6 +814,7 @@ def run_assessment(
             "seed": seed,
             "explain_samples": explain_samples,
             "train_limit": train_limit,
+            "causal_lambda": causal_lambda,
             "device": str(device),
         },
         "dataset": {
@@ -828,6 +845,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--explain-samples", type=int, default=12)
     parser.add_argument("--train-limit", type=int, default=5000)
+    parser.add_argument("--causal-lambda", type=float, default=0.75)
     parser.add_argument("--output-dir", type=str, default="experiments/results")
     parser.add_argument("--result-filename", type=str, default="ace_experiment_results.json")
     args = parser.parse_args()
@@ -844,6 +862,7 @@ def main() -> None:
         train_limit=args.train_limit,
         device=device,
         include_causal_explanations=True,
+        causal_lambda=args.causal_lambda,
     )
 
     output_dir = Path(args.output_dir)

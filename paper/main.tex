@@ -105,8 +105,9 @@
     %A Survey and Benchmark of Multimodal XAI for Clinical Applications
     
 %    A Survey of Multimodal XAI for Healthcare Decision-Making
-A Survey of Multimodal XAI in Healthcare:\\ From Architectures Classification to an Action-Centered Framework}
-
+%A Survey of Multimodal XAI in Healthcare:\\ From Architectures Classification to an Action-Centered Framework}
+%A Review of Multimodal Explainable AI in Healthcare: An Action-Centered Framework for Clinical Decision Support
+A Review of Multimodal XAI in Healthcare: Toward Action-Centered Explainability for Clinical Decision Support}
 %%=============================================================%%
 %% GivenName	-> \fnm{Joergen W.}
 %% Particle	-> \spfx{van der} -> surname prefix
@@ -135,17 +136,25 @@ A Survey of Multimodal XAI in Healthcare:\\ From Architectures Classification to
 %%==================================%%
 
 \abstract{
-Clinical adoption of AI in healthcare is hindered by a critical transparency gap: multimodal models integrating medical images, clinical notes, and genomic data remain opaque to clinicians, limiting their ability to trust and act upon model outputs. Multimodal eXplainable Artificial Intelligence (MXAI) methods have rapidly advanced in healthcare research, yet they remain weakly aligned with the requirements of healthcare decision-making. Existing surveys primarily categorize explanations by their generation mechanisms (ante-hoc vs. post-hoc), overlooking how explanations are actually used to support clinical decisions. \\
-In this survey, we examine MXAI through the lens of healthcare decision-making and introduce the Action-Centered Explainability (ACE) framework, which maps five clinical actions—triage, diagnosis, treatment selection, audit, and monitoring, to their corresponding explanation requirements, each associated with distinct safety-critical properties. We survey over fifty methods, twelve datasets, and four evaluation frameworks, reviewing existing MXAI approaches through this action-centered lens and identifying critical gaps between current practice and clinician needs.
+%Clinical adoption of AI in healthcare is hindered by a critical transparency gap: multimodal models integrating medical images, clinical notes, and genomic data remain opaque to clinicians, limiting their ability to trust and act upon model outputs. Multimodal eXplainable Artificial Intelligence (MXAI) methods have rapidly advanced in healthcare research, yet they remain weakly aligned with the requirements of healthcare decision-making. Existing surveys primarily categorize explanations by their generation mechanisms (ante-hoc vs. post-hoc), overlooking how explanations are actually used to support clinical decisions. \\
+Clinical adoption of AI in healthcare is hindered by a transparency gap: multimodal models remain opaque to clinicians, and existing MXAI surveys categorize methods by generation mechanism (ante-hoc vs. post-hoc) rather than by how explanations support clinical decisions. 
+%In this survey, we examine MXAI through the lens of healthcare decision-making and introduce the Action-Centered Explainability (ACE) framework, which maps five clinical actions—triage, diagnosis, treatment selection, audit, and monitoring, to their corresponding explanation requirements, each associated with distinct safety-critical properties. We survey over fifty methods, twelve datasets, and four evaluation frameworks, reviewing existing MXAI approaches through this action-centered lens and identifying critical gaps between current practice and clinician needs.
+We introduce the Action-Centered Explainability (ACE) framework, mapping five clinical actions—triage, diagnosis, treatment selection, audit, and monitoring—to their explanation requirements. To support this framework, we complement the survey with a controlled benchmark illustrating how different MXAI methods satisfy these action-specific requirements under distribution shift.
 
+%We introduce the Action-Centered Explainability (ACE) framework, mapping five clinical actions—triage, diagnosis, treatment selection, audit, and monitoring—to their explanation requirements, and survey over fifty methods, twelve datasets, and four evaluation frameworks through this lens.
 %In this survey, we examine MXAI through the lens of healthcare decision-making and introduce the Action-Centered Explainability (ACE) framework, which maps clinical decisions—such as triage, diagnosis, treatment selection, audit, and monitoring—to their corresponding explanation requirements.
-We complement this survey with a controlled multimodal benchmark to operationalize key evaluation dimensions relevant to decision support. Using a reproducible DermaMNIST-based setting with synthetic clinical covariates and a controlled spurious hospital shift, our experiments show that intrinsic attention achieves the lowest latency, while perturbation-based methods remain significantly slower and saliency approaches exhibit measurable cross-modal leakage. 
-Crucially, enforcing causal invariance reduces out-of-distribution accuracy loss from 23.6 to 2.9 percentage points, directly demonstrating that explanation quality must be evaluated jointly with intervention robustness.
-Based on these insights, we reorganize MXAI methods, datasets, and evaluation protocols around decision-oriented requirements, namely latency, causal validity, stability, counterfactual usefulness, and auditability. Rather than cataloging explainers by algorithmic family, this work provides clinicians and system designers with a structured, empirically grounded roadmap for selecting and evaluating MXAI methods according to the clinical action they must support.
+%We complement this survey with a controlled multimodal benchmark to operationalize key evaluation dimensions relevant to decision support. Using a reproducible DermaMNIST-based setting with synthetic clinical covariates and a controlled spurious hospital shift, our experiments show that intrinsic attention achieves the lowest latency, while perturbation-based methods remain significantly slower and saliency approaches exhibit measurable cross-modal leakage. 
+%\textcolor{red}{In an expanded controlled benchmark with 500 OOD cases, 20 random seeds, and a grid of causal-invariance weights, causal training improved mean OOD accuracy from 0.604 to 0.753 and reduced the generalization gap from 0.252 to 0.091, with bootstrap confidence intervals and paired statistical tests supporting the robustness of the effect.
+A controlled benchmark (500 OOD cases, 20 seeds) shows that causal training improves OOD accuracy from 0.604 to 0.753 (gap: $0.252 \to 0.091$), intrinsic attention achieves the lowest latency, and saliency methods exhibit cross-modal leakage. 
+These results reinforce the central ACE claim: MXAI methods should not be selected by explainer family alone, but by whether they satisfy the latency, causal validity, stability, fairness, and traceability requirements of the clinical action they support.
+%Based on these insights, we reorganize MXAI methods, datasets, and evaluation protocols around decision-oriented requirements, namely latency, causal validity, stability, counterfactual usefulness, and auditability. Rather than cataloging explainers by algorithmic family, this work provides clinicians and system designers with a structured, empirically grounded roadmap for selecting and evaluating MXAI methods according to the clinical action they must support.
+Rather than cataloging explainers by algorithmic family, this work provides clinicians and system designers with an empirically grounded roadmap for selecting MXAI methods according to the clinical action they must support. 
+
+\textcolor{red}{ Across both the controlled OOD benchmark and the six-domain ACE stress-test suite, no explainer dominated all clinical actions: low-latency methods were strongest for triage-like workflows, while intervention-based or perturbational methods were more informative for diagnosis, treatment reasoning, and audit.}
 
 %Moreover, enforcing causal invariance improves out-of-distribution robustness and reduces reliance on spurious features, highlighting the importance of intervention-aware explanations for reliable decision-making. 
 %Based on these insights, we reorganize MXAI methods, datasets, and evaluation protocols around decision-oriented requirements, namely latency, causal validity, stability, counterfactual usefulness, and auditability. Rather than merely cataloging explainers, this work provides a clinically grounded roadmap for MXAI systems that are interpretable, empirically stress-tested, and closer to real-world deployment constraints.
-}
+
 
 %%================================%%
 %% Sample for structured abstract %%
@@ -157,7 +166,8 @@ Based on these insights, we reorganize MXAI methods, datasets, and evaluation pr
 % 
 % \textbf{Results:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
 % 
-% \textbf{Conclusion:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.}
+% \textbf{Conclusion:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+}
 
 \keywords{
 %Explainable, Interpretable, Multimodal, Artificial Intelligence, medical}
@@ -177,39 +187,44 @@ However, existing MXAI approaches often emphasize technical interpretability wit
 For instance, an MXAI system diagnosing lung conditions could identify computed tomography (CT) anomalies and correlate them with documented smoking history and relevant biomarkers, providing holistic explanations that build trust and facilitate acceptance \cite{Gaube2023,Niu2025}. 
 Yet, such explanations remain difficult to operationalize unless they are aligned with specific clinical actions.
 This survey provides a comprehensive overview of MXAI in healthcare, covering foundational XAI concepts, multimodal architectures, state-of-the-art methods, benchmark datasets, evaluation metrics, and critical challenges including scalability, causality, fairness, and human-centricity. Since 2024, the rapid deployment of multimodal foundation models (e.g., Med-PaLM, MedCLIP, GPT-4V) has intensified the need for robust explainability mechanisms to ensure clinical safety and regulatory compliance with emerging FDA and EU AI Act requirements \cite{wang2022medclipcontrastivelearningunpaired,liu2023holisticevaluationgpt4vbiomedical,fda2025draft,VANKOLFSCHOOTEN2024105152}. 
-These systems are increasingly integrated into clinical workflows, where explanations must meet strict requirements in terms of reliability, latency, and accountability.
-We examine practical deployment issues and limitations of current approaches, concluding with a roadmap for future research to advance transparent, trustworthy, and effective AI systems in healthcare.
-In particular, we emphasize the gap between existing explainability methods and the needs of real-world decision support.
-\textbf{Unlike prior surveys, this work argues that the ante-hoc/post-hoc taxonomy is structurally misaligned with clinical decision support.} 
-While widely adopted in the literature, this distinction reflects algorithmic properties rather than end-user requirements.
-Clinicians do not choose explanations based on whether they are embedded in a model or applied afterward \cite{pmlr-v106-tonekaboni19a}; they ask: ``Is this case urgent?'', ``Why this diagnosis?'', ``Why this treatment?'', ``Can I defend this decision in court?'', ``Is the model still reliable after 6 months?'' 
-These questions correspond to distinct decision-making contexts that require different types of explanations.
-Each question demands distinct explanation properties---speed, causality, counterfactuals, stability, temporal consistency---that current MXAI taxonomies do not foreground \cite{pmlr-v106-tonekaboni19a,gniadek2023framework} .
-As a result, existing frameworks fail to capture the practical requirements of clinical use.
-We introduce an \textit{Action-Centered Explainability} framework that restructures the MXAI landscape around clinical decisions rather than algorithmic mechanics. 
-Specifically, the proposed framework maps key clinical actions to their corresponding explanation requirements.
-This reframing helps explain why methods optimized for fidelity metrics often fail deployment-oriented requirements and offers an action-centered lens for clinically viable MXAI.
+%These systems are increasingly integrated into clinical workflows, where explanations must meet strict requirements in terms of reliability, latency, and accountability. We examine practical deployment issues and limitations of current approaches, concluding with a roadmap for future research to advance transparent, trustworthy, and effective AI systems in healthcare.
+We examine practical deployment issues and limitations of current approaches, concluding with a roadmap for future research. 
+
+%In particular, we emphasize the gap between existing explainability methods and the needs of real-world decision support. \textbf{Unlike prior surveys, this work argues that the ante-hoc/post-hoc taxonomy is structurally misaligned with clinical decision support.} 
+%While widely adopted in the literature, this distinction reflects algorithmic properties rather than end-user requirements. Clinicians do not choose explanations based on whether they are embedded in a model or applied afterward \cite{pmlr-v106-tonekaboni19a}; they ask: ``Is this case urgent?'', ``Why this diagnosis?'', ``Why this treatment?'', ``Can I defend this decision in court?'', ``Is the model still reliable after 6 months?'' 
+%These questions correspond to distinct decision-making contexts that require different types of explanations. Each question demands distinct explanation properties---speed, causality, counterfactuals, stability, temporal consistency---that current MXAI taxonomies do not foreground \cite{pmlr-v106-tonekaboni19a,gniadek2023framework} . As a result, existing frameworks fail to capture the practical requirements of clinical use.
+Unlike prior surveys, this work argues that the ante-hoc/post-hoc taxonomy is structurally misaligned with clinical decision support: it reflects algorithmic properties rather than end-user requirements [10, 11]. Clinicians ask decision-driven questions—“Is this case urgent?”, “Why this diagnosis?”, “Can I defend this decision?”—each demanding distinct explanation properties (latency, causality, stability, traceability) that current taxonomies do not foreground. 
+%We introduce an \textit{Action-Centered Explainability} framework that restructures the MXAI landscape around clinical decisions rather than algorithmic mechanics. 
 %Specifically, the proposed framework maps key clinical actions to their corresponding explanation requirements.
-It also provides a principled basis for evaluating and selecting explainability methods in decision-critical settings.
-
-The contributions of this survey are fourfold. First, we provide a comprehensive and structured survey of Multimodal eXplainable AI (MXAI) in healthcare, covering methods, architectures, datasets, and evaluation protocols. Second, we identify a fundamental limitation of existing surveys, namely their reliance on model-centric classification that do not reflect the requirements of healthcare decision-making. Third, we introduce the Action-Centered Explainability (ACE) framework, which maps clinical actions to explanation requirements and offers a decision-oriented perspective on MXAI. Fourth, we complement this survey with a controlled multimodal benchmark that empirically evaluates key properties such as latency, causal alignment, stability, and robustness to spurious correlations.
-
-The remainder of this paper is organized as follows: In Section 2, we present an overview of the foundations of Explainable AI, multimodal AI, and multimodal foundation models in healthcare. This section explores the challenges posed by opaque decision-making, hallucination, cross-modal reasoning, and clinical regulatory constraints, before detailing the focus of this paper, namely Multimodal eXplainable AI. In Section 3, we introduce the Action-Centered Explainability framework, which reframes MXAI methods around clinical actions such as triage, diagnosis, treatment selection, audit, and monitoring. In Section 4, we review MXAI methods, architectures, and healthcare applications through this action-centered lens. Section 5 is dedicated to datasets and benchmarks commonly used in multimodal XAI research, with emphasis on their limitations for clinically grounded evaluation. Sections 6 and 7 present the controlled experimental assessment and evaluation metrics, respectively. Section 8 discusses open challenges and future research directions, Section 9 provides a broader discussion of the findings, and Section 10 concludes the paper.
+%This reframing helps explain why methods optimized for fidelity metrics often fail deployment-oriented requirements and offers an action-centered lens for clinically viable MXAI.
+%Specifically, the proposed framework maps key clinical actions to their corresponding explanation requirements.
+%It also provides a principled basis for evaluating and selecting explainability methods in decision-critical settings.
+To address this gap, we introduce the Action-Centered Explainability (ACE) framework, which maps five clinical actions—triage, diagnosis, treatment selection, audit, and monitoring—to their corresponding explanation requirements. We complement ACE with a controlled multimodal benchmark (500 OOD cases, 20 seeds) showing that causal training improves OOD accuracy from 0.604 to 0.753 and that no single explainer satisfies all clinical actions simultaneously.
+Rather than proposing a new predictive model, we use a controlled multimodal benchmark as an empirical vehicle to illustrate and validate the practical implications of the ACE framework across different clinical actions.
+%The contributions of this survey are fourfold. First, we provide a comprehensive and structured survey of Multimodal eXplainable AI (MXAI) in healthcare, covering methods, architectures, datasets, and evaluation protocols. Second, we identify a fundamental limitation of existing surveys, namely their reliance on model-centric classification that do not reflect the requirements of healthcare decision-making. Third, we introduce the Action-Centered Explainability (ACE) framework, which maps clinical actions to explanation requirements and offers a decision-oriented perspective on MXAI. Fourth, we complement this survey with a controlled multimodal benchmark that empirically evaluates key properties such as latency, causal alignment, stability, and robustness to spurious correlations.
+The contributions of this survey are fourfold: (1) a structured survey of MXAI in healthcare covering methods, architectures, datasets, and evaluation protocols; (2) a critique of model-centric XAI taxonomies as misaligned with clinical decision-making; (3) the ACE framework mapping clinical actions to explanation requirements; and (4)a controlled benchmark designed to empirically illustrate and validate ACE, evaluating latency, causal alignment, stability, and robustness across multiple explanation paradigms. 
+The remainder of this paper is organized as follows: Section 2 covers XAI and multimodal AI foundations. Section 3 introduces ACE. Section 4 reviews MXAI methods through the ACE lens. Section 5 covers datasets and benchmarks. Sections 6–7 present the benchmark and evaluation metrics. Sections 8–10 address challenges, discussion, and conclusion.
+%In Section 2, we present an overview of the foundations of Explainable AI, multimodal AI, and multimodal foundation models in healthcare. This section explores the challenges posed by opaque decision-making, hallucination, cross-modal reasoning, and clinical regulatory constraints, before detailing the focus of this paper, namely Multimodal eXplainable AI. In Section 3, we introduce the Action-Centered Explainability framework, which reframes MXAI methods around clinical actions such as triage, diagnosis, treatment selection, audit, and monitoring. In Section 4, we review MXAI methods, architectures, and healthcare applications through this action-centered lens. Section 5 is dedicated to datasets and benchmarks commonly used in multimodal XAI research, with emphasis on their limitations for clinically grounded evaluation. Sections 6 and 7 present the controlled experimental assessment and evaluation metrics, respectively. Section 8 discusses open challenges and future research directions, Section 9 provides a broader discussion of the findings, and Section 10 concludes the paper.
 
 \section{Background}
 This section provides context on the evolution of explainability in AI and the rise of multimodal AI systems.
 
+\subsection{Survey Selection Methodology}
+\textcolor{red}{
+We followed a PRISMA-inspired selection protocol to identify MXAI methods, datasets, and evaluation frameworks relevant to healthcare. Searches were conducted in PubMed, IEEE Xplore, ACM Digital Library, Scopus, arXiv, and Google Scholar using combinations of "multimodal explainable AI", "medical XAI", "clinical decision support", "foundation model explainability", and "medical image-text learning". Studies were included when they addressed multimodal healthcare data, proposed or evaluated an explainability method, introduced a relevant benchmark, or provided clinical/regulatory evaluation criteria. Studies were excluded when they were purely unimodal, non-clinical without methodological relevance, or lacked sufficient methodological detail. The final corpus was organized by ACE action rather than by explainer family alone. }
+
 \subsection{Foundations of Explainable AI}
 Explainability in AI has evolved from inherently interpretable rule-based expert systems to methods addressing modern "black box" models. 
 While this evolution has improved model transparency, it has primarily focused on technical interpretability rather than practical usability in decision-making contexts.
-In the literature eXplainable AI (XAI) methods are categorized as:
+%In the literature eXplainable AI (XAI) methods are categorized as:
 
-\begin{itemize}
-    \item \textbf{Ante-hoc Methods:} Inherently interpretable models including decision trees, linear models, and rule-based systems where structure directly reveals feature contributions.
-    \item \textbf{Post-hoc Methods:} Techniques applied after training to explain predictions, including model-agnostic methods (LIME, SHAP) and model-specific approaches (Grad-CAM). These are essential for complex models like deep neural networks \cite{wani2024deepxplainer,Mohan_2025}.
-\end{itemize}
+%\begin{itemize}
+%    \item \textbf{Ante-hoc Methods:} Inherently interpretable models including decision trees, linear models, and rule-based systems where structure directly reveals feature contributions.
+ %   \item \textbf{Post-hoc Methods:} Techniques applied after training to explain predictions, including model-agnostic methods (LIME, SHAP) and model-specific approaches (Grad-CAM). These are essential for complex models like deep neural networks \cite{wani2024deepxplainer,Mohan_2025}.
+%\end{itemize}
 However, this distinction reflects how explanations are generated rather than how they are used, which limits its relevance for real-world decision-making.
-Explanations also vary by granularity:
+Beyond the ante-hoc/post-hoc distinction, explanations also vary by granularity:
+%Explanations also vary by granularity:
 \begin{itemize}
     \item \textbf{Global:} Describes overall model behavior across the entire dataset.
     \item \textbf{Local:} Explains individual predictions for specific instances.
@@ -232,6 +247,7 @@ Recent advances in transformer-based architectures (BERT, Vision Transformer) ha
 These architectural choices directly influence explainability, as they determine how information is combined and how attribution can be assigned across modalities.
 Multimodal explainability addresses unique challenges in interpreting cross-modal interactions. Methods like Grad-CAM and LRP highlight important image features, while attention weights explain textual contributions, though they must be adapted to capture modality interactions \cite{HOFMANN2022119504,rodis2024multimodalexplainableartificialintelligence}.
 In particular, cross-modal interactions introduce risks of spurious correlations and attribution ambiguity, which are not fully addressed by standard XAI methods.
+Although these architectures determine how information is combined and explained, they do not indicate whether the resulting explanations are appropriate for supporting specific clinical decisions. This limitation motivates the action-centered perspective introduced in Section 3.
 \subsection{Multimodal Foundation Models in Healthcare}
 Recent advances have introduced specialized Medical Multimodal Vision-Language Foundation Models (MMVLFMs) that leverage self-supervised learning on millions of image-text pairs.
 
@@ -240,7 +256,8 @@ Recent advances have introduced specialized Medical Multimodal Vision-Language F
     
     \item 
     %\textbf{Med-PaLM 2} \cite{singhal2023expertlevelmedicalquestionanswering}: Demonstrates strong performance on medical question answering and report generation, though explainability remains limited.
-    Med-PaLM 2 \cite{singhal2023expertlevelmedicalquestionanswering}: Achieves expert-level performance on MedQA, with up to 86.5\% accuracy, and reports strong results on MedMCQA and MMLU clinical-topic benchmarks. However, Med-PaLM 2 is primarily evaluated as a text-based medical question-answering model; its real-world clinical deployment, safety, and interpretability require further validation, while multimodal capabilities are addressed separately in Med-PaLM M.
+    Med-PaLM 2 \cite{singhal2023expertlevelmedicalquestionanswering}:  (primarily a text-based medical QA model; multimodal capabilities are addressed separately in Med-PaLM M): Achieves expert-level performance on MedQA, with up to 86.5\% accuracy, and reports strong results on MedMCQA and MMLU clinical-topic benchmarks. 
+    %However, Med-PaLM 2 is primarily evaluated as a text-based medical question-answering model; its real-world clinical deployment, safety, and interpretability require further validation, while multimodal capabilities are addressed separately in Med-PaLM M.
     \item \textbf{GPT-4V Evaluation}: Recent studies show proficiency in modality/anatomy recognition but significant challenges in disease diagnosis and localization, with F1 scores of only 7.3–18.2\% on disease localization and classification tasks evaluated on the CheXpert and MIMIC-CXR datasets in zero-shot settings \cite{liu2023holisticevaluationgpt4vbiomedical, chu2025reducinghallucinationsmedicalmultimodal}.
     %with F1 scores of only 7.3-18.2\% on chest X-ray tasks in zero-shot settings \cite{liu2023holisticevaluationgpt4vbiomedical, chu2025reducinghallucinationsmedicalmultimodal}.
 \end{itemize}
@@ -290,18 +307,51 @@ We propose reclassifying MXAI methods by the clinical action they support, each 
 
 \begin{table}[h!]
 \centering
-\caption{Action-Centered Explainability Framework: Clinical Actions, Explanation Questions, and Required Properties}
+\caption{Action-Centered Explainability Framework: Clinical Actions, Explanation Questions, Required Properties, and Fairness Checks}
 \label{tab:ace_framework}
-\begin{tabular}{|p{2cm}|p{1.7cm}|p{4.5cm}|p{4.5cm}|}
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|L{1.7cm}|L{2.0cm}|L{2.5cm}|L{3.0cm}|X|}
 \hline
-\textbf{Clinical Action} & \textbf{Explanation Question} & \textbf{Required Properties} & \textbf{Why Current XAI Fails} \\ \hline
-\textbf{Intra-operative assistance} & ``Is this case urgent?'' & Low-latency responsiveness (workflow-dependent), Uncertainty bounds, Sensitivity \textgreater 95\%
- & Perturbational explainers were 41--107$\times$ slower than attention in our benchmark; none emitted calibrated uncertainty \\ \hline
-\textbf{Diagnosis} & ``Why this disease?'' & Cross-modal causality, Modality-specific fidelity, Counterfactual validity & Attention overweighted a spurious hospital signal and Grad-CAM heatmaps shifted by 0.031 under metadata-only perturbation \\ \hline
-\textbf{Treatment Choice} & ``Why this option?'' & Counterfactuals (``If not X, then...''), Risk stratification, Personalization & Only modality ablation produced a direct intervention signal; saliency and attention did not answer explicit ``if not X'' questions \\ \hline
-\textbf{Audit / Liability} & ``Can I defend this?'' & Stability across model updates, Reproducibility, Admissible documentation & Most methods were stable on the lightweight benchmark, but none produced a standardized audit trail or explanation confidence interval \\ \hline
-\textbf{Monitoring} & ``Is the model still valid?'' & Temporal consistency, Drift detection, Recalibration triggers & OOD feature masking and retrieval purity exposed drift, but most explainers had no native lifecycle diagnostic \\ \hline
-\end{tabular}
+\textbf{Clinical Action} &
+\textbf{Explanation Question} &
+\textbf{Required Properties} &
+\textbf{Fairness Question} &
+\textbf{Why Current XAI Fails} \\ \hline
+
+\textbf{Triage} &
+``Is this case urgent?'' &
+Low-latency responsiveness, uncertainty bounds, high sensitivity &
+Are urgent cases prioritized consistently across demographic groups and acquisition sites? &
+Perturbational explainers remain substantially slower than intrinsic methods in our benchmark; most methods do not emit calibrated uncertainty or subgroup-specific reliability estimates. \\ \hline
+
+\textbf{Diagnosis} &
+``Why this disease?'' &
+Cross-modal causality, modality-specific fidelity, counterfactual validity &
+Are the same clinical findings explained similarly across subgroups? &
+Attention can overweight spurious hospital signals, and Grad-CAM heatmaps shift under metadata-only perturbation, indicating cross-modal leakage. \\ \hline
+
+\textbf{Treatment selection} &
+``Why this option?'' &
+Counterfactual reasoning, risk stratification, personalization &
+Are counterfactual treatment explanations equally reliable across patient groups? &
+Standard saliency and attention methods explain the current prediction but do not answer explicit intervention questions such as ``if not X, then what?''. \\ \hline
+
+\textbf{Audit} &
+``Can I defend this?'' &
+Stability across model updates, reproducibility, admissible documentation &
+Can subgroup-specific explanation failures be traced and justified? &
+Most methods lack standardized audit trails, explanation confidence intervals, versioned evidence logs, and subgroup-specific failure documentation. \\ \hline
+
+\textbf{Monitoring} &
+``Is the model still valid?'' &
+Temporal consistency, drift detection, recalibration triggers &
+Does explanation drift appear earlier or more strongly in specific subgroups or sites? &
+OOD feature masking and retrieval purity can expose drift, but most explainers have no native lifecycle diagnostic or subgroup-aware monitoring trigger. \\ \hline
+
+\end{tabularx}
+\par}
 \end{table}
 
 \subsection{Re-mapping Existing Methods to Clinical Actions}
@@ -318,21 +368,21 @@ Rather than cataloging methods by algorithmic type, we evaluate them by \textit{
 \begin{tabularx}{\textwidth}{|L{1.7cm}YYYYYL{2.5cm}|}
 \hline
 \textbf{Method} & \textbf{Triage} & \textbf{Diagnosis} & \textbf{Treatment} & \textbf{Audit} & \textbf{Monitor.} & \textbf{Limitation} \\ \hline
-KernelSHAP & \textcolor{red}{\xmark} (294.16 ms) & \partialcmark ($\rho=0.80$) & \partialcmark (feature ranking) & \partialcmark (0.968 stability) & \textcolor{red}{\xmark} (no drift signal) & Slow perturbational attribution \\ \hline
-LIME & \textcolor{red}{\xmark} (111.54 ms) & \partialcmark ($\rho=0.90$) & \partialcmark (local surrogate) & \partialcmark (0.951 stability) & \textcolor{red}{\xmark} (no lifecycle signal) & Hyperparameter sensitivity \\ \hline
-Integrated Gradients & \partialcmark (10.60 ms) & \partialcmark ($\rho=0.80$) & \textcolor{red}{\xmark} (path attribution only) & \partialcmark (0.959 stability) & \textcolor{red}{\xmark} (no drift signal) & Baseline dependence \\ \hline
-Grad-CAM & \textcolor{green}{\cmark} (3.76 ms) & \partialcmark (visual only) & \textcolor{red}{\xmark} (no CF) & \textcolor{red}{\xmark} (0.725 stability) & \textcolor{red}{\xmark} (leakage 0.031) & Metadata-induced heatmap shift \\ \hline
-Attention & \textcolor{green}{\cmark} (2.75 ms) & \partialcmark (spurious token focus) & \textcolor{red}{\xmark} (no intervention) & \partialcmark (0.929 stability) & \textcolor{red}{\xmark} (no drift flag) & Spurious hospital-token focus\\ \hline
-Retrieval proxy & \textcolor{green}{\cmark} (3.07 ms) & \partialcmark (purity 0.52/0.73) & \partialcmark (case support) & \textcolor{green}{\cmark} (explicit evidence) & \partialcmark (purity drop) & No generative grounding or report validation \\ \hline
-Modality Ablation & \textcolor{green}{\cmark} (8.09 ms) & \textcolor{green}{\cmark} (direct intervention) & \textcolor{green}{\cmark} (counterfactual removal) & \partialcmark (0.911 stability) & \textcolor{green}{\cmark} (OOD masking reveals drift) & Intervention definition matters \\ \hline
+KernelSHAP & \textcolor{red}{\xmark} (142.66 ms) & \partialcmark ($\rho=1.00$) & \partialcmark (feature ranking) & \partialcmark (0.844 stability) & \textcolor{red}{\xmark} (no drift signal) & Slow perturbational attribution \\ \hline
+LIME & \textcolor{red}{\xmark} (48.75 ms) & \partialcmark ($\rho=0.90$) & \partialcmark (local surrogate) & \partialcmark (0.826 stability) & \textcolor{red}{\xmark} (no lifecycle signal) & Hyperparameter sensitivity \\ \hline
+Integrated Gradients & \partialcmark (5.62 ms) & \partialcmark ($\rho=1.00$) & \textcolor{red}{\xmark} (path attribution only) & \partialcmark (0.875 stability) & \textcolor{red}{\xmark} (no drift signal) & Baseline dependence \\ \hline
+Grad-CAM & \textcolor{green}{\cmark} (2.30 ms) & \partialcmark (visual only) & \textcolor{red}{\xmark} (no CF) & \partialcmark (0.868 stability) & \textcolor{red}{\xmark} (leakage 0.056) & Metadata-induced heatmap shift \\ \hline
+Attention & \textcolor{green}{\cmark} (1.15 ms) & \partialcmark (spurious token focus) & \textcolor{red}{\xmark} (no intervention) & \partialcmark (0.847 stability) & \textcolor{red}{\xmark} (no drift flag) & Spurious hospital-token focus \\ \hline
+Retrieval proxy & \textcolor{green}{\cmark} (2.35 ms) & \partialcmark (purity 0.413/0.584) & \partialcmark (case support) & \textcolor{green}{\cmark} (explicit evidence) & \partialcmark (purity shift) & No generative grounding or report validation \\ \hline
+Modality Ablation & \textcolor{green}{\cmark} (3.98 ms) & \textcolor{green}{\cmark} (direct intervention, $\rho=1.00$) & \textcolor{green}{\cmark} (counterfactual removal) & \partialcmark (0.827 stability) & \textcolor{green}{\cmark} (OOD masking reveals drift) & Intervention definition matters \\ \hline
 \end{tabularx}
 \par}
 \textit{\cmark = suitable, \partialcmark = partially suitable, \xmark = unsuitable.}\newline
 
 {\footnotesize
-Ratings are derived from the controlled benchmark described in Section 6 (Table 6). Absolute latencies are lower bounds measured on a lightweight architecture and should be rescaled for full-resolution clinical pipelines. OOD = Out Of Distribution, CF = Counterfactual}
-%Ratings are derived from the controlled benchmark: low-latency triage favored methods below 15 ms/case; diagnosis favored causal alignment and low leakage; audit favored stability or explicit evidence traces; monitoring favored direct OOD-shift observability.}
+Ratings are derived from the final Captum-based measurements on the 500-case OOD subset reported in Table \ref{tab:controlled_methods}. Absolute latencies are lower bounds measured on a lightweight 28$\times$28 architecture and should be rescaled for full-resolution clinical pipelines. OOD = Out Of Distribution, CF = Counterfactual.}
 \end{table}
+
 
 \textbf{Why Table \ref{tab:method_suitability} matters.} This table is the operational core of ACE: it converts raw explanation behavior into a clinician-facing action map. Its main patterns were not a one-dataset accident. In the six-domain cross-dataset suite added later in Section \ref{sec:ace_cross_dataset_suite}, attention was the fastest explainer on all six public medical domains (mean $3.16$ ms/case), LIME and KernelSHAP remained roughly $55\times$ and $138\times$ slower than attention on average, and Grad-CAM still showed non-zero cross-modal leakage (mean $0.031$). Integrated Gradients and KernelSHAP achieved the strongest mean causal-alignment scores in that broader suite ($0.867$ and $0.883$), reinforcing the basic trade-off structure summarized here.
 
@@ -340,14 +390,15 @@ Ratings are derived from the controlled benchmark described in Section 6 (Table 
 
 \section{MXAI Methods, Architectures, and Applications in Healthcare}
 
-This section provides an in-depth review of state-of-the-art MXAI techniques, re-evaluated through the Action-Centered Explainability framework. Rather than presenting methods in isolation, we map each technique to the clinical actions it can (or cannot) support, highlighting critical performance gaps. For each method, we assess: \textit{Does it meet clinical latency requirements? Does it provide causal or merely correlational evidence? Is it stable across model updates?} This functional evaluation reveals why methods optimized for explanation fidelity often fail in deployment.
+%This section provides an in-depth review of state-of-the-art MXAI techniques, re-evaluated through the Action-Centered Explainability framework. Rather than presenting methods in isolation, we map each technique to the clinical actions it can (or cannot) support, highlighting critical performance gaps. For each method, we assess: \textit{Does it meet clinical latency requirements? Does it provide causal or merely correlational evidence? Is it stable across model updates?} This functional evaluation reveals why methods optimized for explanation fidelity often fail in deployment.
 %\subsection{Mapping Methods to Clinical Actions}
-We now evaluate core MXAI methods against the five clinical actions defined in Table 1. Rather than assessing methods by algorithmic family, each description includes a Clinical Suitability Assessment grounded in the controlled benchmark (Section 6), covering four deployment-critical dimensions: latency, causal alignment, stability, and modality coverage. Table 2 summarizes the resulting action-suitability matrix; the subsections below detail the evidence behind each rating. A key finding anticipated here is that no single method simultaneously satisfies all clinical actions, confirming that method selection must be driven by the target decision context rather than by general performance metrics.
+%We now evaluate core MXAI methods against the five clinical actions defined in Table 1. Rather than assessing methods by algorithmic family, each description includes a Clinical Suitability Assessment grounded in the controlled benchmark (Section 6), covering four deployment-critical dimensions: latency, causal alignment, stability, and modality coverage. Table 2 summarizes the resulting action-suitability matrix; the subsections below detail the evidence behind each rating. A key finding anticipated here is that no single method simultaneously satisfies all clinical actions, confirming that method selection must be driven by the target decision context rather than by general performance metrics.
 
 %We now evaluate core MXAI methods against the five clinical actions from Table \ref{tab:ace_framework}. Each method description includes a \textbf{Clinical Suitability Assessment} summarizing its deployment viability.
-
+This section reviews state-of-the-art MXAI methods through the ACE lens, mapping each to the clinical actions it supports based on four dimensions: latency, causal alignment, stability, and modality coverage. Table 2 summarizes the action-suitability matrix; subsections below detail the evidence. A key finding is that no single method satisfies all clinical actions simultaneously.
 \subsection{MXAI Methods}
-This subsection details key XAI methods for multimodal healthcare data: feature importance techniques, saliency maps, and attention mechanisms. These approaches enhance transparency by revealing how different modalities contribute to model predictions---critical for high-stakes clinical decisions. 
+%This subsection details key XAI methods for multimodal healthcare data: feature importance techniques, saliency maps, and attention mechanisms. These approaches enhance transparency by revealing how different modalities contribute to model predictions---critical for high-stakes clinical decisions. 
+We detail key XAI methods for multimodal healthcare data—feature importance, saliency maps, and attention—and assess their clinical suitability against benchmark results (Table 2). 
 \textcolor{Critically, neither the ante-hoc/post-hoc distinction nor the global/local granularity captures whether an explanation is fit for a specific clinical purpose — a gap that motivates the action-centered perspective developed in Section 3.}
 %Whenever possible, we complement literature-grounded claims with experimental evaluations conducted in Section \ref{sec:controlled_experiments} on the controlled benchmark.
 
@@ -355,77 +406,83 @@ This subsection details key XAI methods for multimodal healthcare data: feature 
 These methods quantify individual feature contributions to predictions, helping clinicians identify key diagnostic factors.
 
 \begin{itemize}
-    \item \textbf{SHAP:} Based on cooperative game theory, SHAP values compute feature contributions across all possible coalitions, enabling unified importance measures within and across modalities. For patient readmission risk prediction, SHAP can quantify contributions from clinical notes, lab results, and medical images \cite{lundberg2017unifiedapproachinterpretingmodel,mienye2024optimized}. Its canonical attribution is
-    \begin{equation}
-    \phi_j = \sum_{S \subseteq F \setminus \{j\}} \frac{|S|! (|F| - |S| - 1)!}{|F|!} \left[ v(S \cup \{j\}) - v(S) \right],
-    \end{equation}
-    where $F$ is the feature set, $S \subseteq F \setminus \{j\}$, and $v(S)$ measures the prediction strength of coalition $S$.\newline
-    In clinical terms,  $\phi_j$ quantifies how much feature j, for instance, a specific biomarker or image region, shifts the model's prediction away from the average, enabling clinicians to identify which diagnostic factors most influenced a given decision.
+    \item \textbf{SHAP:} Based on cooperative game theory, SHAP values compute feature contributions across all possible coalitions, enabling unified importance measures within and across modalities. For patient readmission risk prediction, SHAP can quantify contributions from clinical notes, lab results, and medical images \cite{lundberg2017unifiedapproachinterpretingmodel,mienye2024optimized}. %Its canonical attribution is
+    %\begin{equation}
+    %\phi_j = \sum_{S \subseteq F \setminus \{j\}} \frac{|S|! (|F| - |S| - 1)!}{|F|!} \left[ v(S \cup \{j\}) - v(S) \right],
+    %\end{equation}
+    %where $F$ is the feature set, $S \subseteq F \setminus \{j\}$, and $v(S)$ measures the prediction strength of coalition $S$.\newline
+    %In clinical terms,  $\phi_j$ quantifies how much feature j, for instance, a specific biomarker or image region, shifts the model's prediction away from the average, enabling clinicians to identify which diagnostic factors most influenced a given decision.
     
-    \begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=\textbf{Clinical Suitability Assessment: SHAP}]
-    \textbf{Triage: Usually unsuitable beyond lightweight backbones}. In our controlled benchmark (Section \ref{sec:controlled_experiments}), KernelSHAP required $294.16$ ms/case, versus $2.75$ ms for attention and $8.09$ ms for modality ablation. \textbf{Diagnosis: Partially suitable}. Causal alignment on the spurious-shift test reached $\rho=0.80$, but the method still assigned substantial importance to the non-causal hospital feature. \textbf{Audit: Conditionally useful}. Seed-to-seed stability was high (cosine $0.968$) on the small benchmark, showing that explanation drift is context-dependent rather than universal. \textbf{Key gap}: absolute latency grows rapidly with image resolution and super-feature granularity, so lightweight timings should be interpreted as lower bounds.
-    \end{tcolorbox}
+    %\begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=\textbf{Clinical Suitability Assessment: SHAP}]
+    %\textbf{Triage: Usually unsuitable beyond lightweight backbones}. In our controlled benchmark (Section \ref{sec:controlled_experiments}), KernelSHAP required $294.16$ ms/case, versus $2.75$ ms for attention and $8.09$ ms for modality ablation. \textbf{Diagnosis: Partially suitable}. Causal alignment on the spurious-shift test reached $\rho=0.80$, but the method still assigned substantial importance to the non-causal hospital feature. \textbf{Audit: Conditionally useful}. Seed-to-seed stability was high (cosine $0.968$) on the small benchmark, showing that explanation drift is context-dependent rather than universal. \textbf{Key gap}: absolute latency grows rapidly with image resolution and super-feature granularity, so lightweight timings should be interpreted as lower bounds.
+    %\end{tcolorbox}
     \begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=\textbf{Mathematical Note: Axioms Do Not Imply Clinical Validity}]
     SHAP's efficiency, symmetry, and additivity axioms ensure fair redistribution of the model output, but they do not guarantee that the highlighted variables are clinically causal or action-relevant.
     \end{tcolorbox}
     
-    \item \textbf{LIME:} This model-agnostic approach approximates complex models locally with interpretable surrogates (e.g., linear models) by perturbing inputs and observing prediction changes. For multimodal diagnosis combining MRI scans and medical history, LIME identifies influential image regions and historical factors \cite{ribeiro2016whyitrustyou}. The local surrogate is learned by minimizing
-    \begin{equation}
-    \mathcal{L}(f, g, \pi_x) + \Omega(g),
-    \end{equation}
-    where $\pi_x$ weights perturbed samples by proximity to instance $x$ and $\Omega(g)$ penalizes surrogate complexity.\newline
-    Clinically, this means LIME approximates the model's behavior in the vicinity of a specific patient case using a simpler interpretable model, allowing clinicians to understand which local features, such as a lesion's texture or a patient's age, drove that particular prediction.   \begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=\textbf{Clinical Suitability Assessment: LIME}]
-    \textbf{Triage: Borderline on small models, unsuitable at scale}. Mean latency was $111.54$ ms/case in our benchmark, around $40\times$ slower than attention. \textbf{Diagnosis: Partially suitable}. Causal alignment reached $\rho=0.90$, but this depended on a coarse 16-patch grouping and fixed perturbation budget. \textbf{Treatment: Partially suitable}. Local surrogate weights are interpretable, yet their validity depends strongly on neighborhood design. \textbf{Audit: Conditional}. Seed stability was $0.951$, but reproducibility is not guaranteed once the sampling policy or kernel width changes. \textbf{Key gap}: hyperparameter sensitivity remains a practical barrier for standardized clinical deployment.
-    \end{tcolorbox}
+    \item \textbf{LIME:} This model-agnostic approach approximates complex models locally with interpretable surrogates (e.g., linear models) by perturbing inputs and observing prediction changes. For multimodal diagnosis combining MRI scans and medical history, LIME identifies influential image regions and historical factors \cite{ribeiro2016whyitrustyou}. 
+    %The local surrogate is learned by minimizing
+    %\begin{equation}
+    %\mathcal{L}(f, g, \pi_x) + \Omega(g),
+    %\end{equation}
+    %where $\pi_x$ weights perturbed samples by proximity to instance $x$ and $\Omega(g)$ penalizes surrogate complexity.\newline
+    %Clinically, this means LIME approximates the model's behavior in the vicinity of a specific patient case using a simpler interpretable model, allowing clinicians to understand which local features, such as a lesion's texture or a patient's age, drove that particular prediction.   \begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=\textbf{Clinical Suitability Assessment: LIME}]
+  %  \textbf{Triage: Borderline on small models, unsuitable at scale}. Mean latency was $111.54$ ms/case in our benchmark, around $40\times$ slower than attention. \textbf{Diagnosis: Partially suitable}. Causal alignment reached $\rho=0.90$, but this depended on a coarse 16-patch grouping and fixed perturbation budget. \textbf{Treatment: Partially suitable}. Local surrogate weights are interpretable, yet their validity depends strongly on neighborhood design. \textbf{Audit: Conditional}. Seed stability was $0.951$, but reproducibility is not guaranteed once the sampling policy or kernel width changes. \textbf{Key gap}: hyperparameter sensitivity remains a practical barrier for standardized clinical deployment.
+   % \end{tcolorbox}
 
-    \item \textbf{Integrated Gradients:} By integrating gradients along a path from baseline to actual input, this method satisfies sensitivity and implementation invariance axioms, providing robust feature importance across modalities \cite{sundararajan2017axiomaticattributiondeepnetworks}. For feature $i$,
-    \begin{equation}
-    \mathrm{IG}_i(x) = (x_i - x_i') \int_0^1 \frac{\partial F(x' + \alpha(x - x'))}{\partial x_i} d\alpha,
-    \end{equation}
-    where $x'$ is the baseline input and $F$ is the target score. \newline
-    In practice, $\mathrm{IG}_i(x)$ measures how much feature i, such as a pixel intensity or a lab value, contributed to moving the prediction from a neutral baseline (e.g., an uninformative reference patient) to the actual output, providing a traceable attribution path that can support clinical audit.
-        \begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=\textbf{Clinical Suitability Assessment: Integrated Gradients}]
-    \textbf{Triage: Fast enough only on lightweight models}. Mean latency was $10.60$ ms/case in our benchmark. \textbf{Diagnosis: Partially suitable}. Causal alignment was $\rho=0.80$ and seed stability $0.959$, but attributions remained sensitive to baseline choice. \textbf{Treatment: Partially suitable}. Path-based attributions reveal feature directions, not treatment counterfactuals. \textbf{Audit: Conditional}. More stable than Grad-CAM in the controlled study, yet no formal guarantee exists under architecture or baseline changes. \textbf{Key gap}: baseline selection still dominates interpretation.
-    \end{tcolorbox}
-\end{itemize}
+    \item \textbf{Integrated Gradients:} By integrating gradients along a path from baseline to actual input, this method satisfies sensitivity and implementation invariance axioms, providing robust feature importance across modalities \cite{sundararajan2017axiomaticattributiondeepnetworks}. 
+    %For feature $i$,
+    %\begin{equation}
+    %\mathrm{IG}_i(x) = (x_i - x_i') \int_0^1 \frac{\partial F(x' + \alpha(x - x'))}{\partial x_i} d\alpha,
+    %\end{equation}
+    %where $x'$ is the baseline input and $F$ is the target score. \newline
+    %In practice, $\mathrm{IG}_i(x)$ measures how much feature i, such as a pixel intensity or a lab value, contributed to moving the prediction from a neutral baseline (e.g., an uninformative reference patient) to the actual output, providing a traceable attribution path that can support clinical audit.
+    %    \begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=\textbf{Clinical Suitability Assessment: Integrated Gradients}]
+%    \textbf{Triage: Fast enough only on lightweight models}. Mean latency was $10.60$ ms/case in our benchmark. \textbf{Diagnosis: Partially suitable}. Causal alignment was $\rho=0.80$ and seed stability $0.959$, but attributions remained sensitive to baseline choice. \textbf{Treatment: Partially suitable}. Path-based attributions reveal feature directions, not treatment counterfactuals. \textbf{Audit: Conditional}. More stable than Grad-CAM in the controlled study, yet no formal guarantee exists under architecture or baseline changes. \textbf{Key gap}: baseline selection still dominates interpretation.
+ %   \end{tcolorbox}
+%\end{itemize}
 
 \subsubsection{Saliency Maps}
 
 Saliency maps visualize input regions most relevant to predictions, particularly valuable for medical imaging.
 
-\begin{itemize}
-    \item \textbf{Grad-CAM (Gradient-weighted Class Activation Mapping):} Grad-CAM uses the gradients of the target output with respect to the feature maps of a convolutional layer to produce a heatmap highlighting the important regions for the prediction. It can be applied to multimodal models by visualizing the important regions in image data and correlating them with other modalities, such as text descriptions. For example, in a model diagnosing lung cancer, Grad-CAM can highlight regions in a CT scan that are indicative of cancer, while also showing related keywords in the radiology report \cite{Selvaraju_2019,raghavan2024attention}. The standard formulation is
-    \begin{equation}
-    \alpha_k^c = \frac{1}{Z} \sum_{i,j} \frac{\partial y^c}{\partial A_{ij}^k},
-    \qquad
-    L^c_{\text{Grad-CAM}} = \mathrm{ReLU}\left( \sum_k \alpha_k^c A^k \right),
-    \end{equation}
-    where $A^k$ is feature map $k$, $y^c$ is the class-$c$ score, and $Z$ normalizes spatial positions.
-    \begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=\textbf{Clinical Suitability Assessment: Grad-CAM}]
-    \textbf{Triage: Suitable only for lightweight image backbones}. We measured $3.76$ ms/case on the controlled benchmark. \textbf{Diagnosis: Partially suitable}. Heatmap stability across retrainings was only $0.725$, lower than all token-based explanation methods. \textbf{Cross-modal validity: Limited}. When only the tabular hospital-bias feature was perturbed, the heatmap changed by $0.031$ on average, demonstrating measurable modality leakage. \textbf{Treatment/Audit: Limited}. Grad-CAM remains local and visual, but not counterfactual or regulation-ready.
-    \end{tcolorbox}
-    \item \textbf{Layer-wise Relevance Propagation (LRP):}
+    \textbf{Grad-CAM (Gradient-weighted Class Activation Mapping):} Grad-CAM uses the gradients of the target output with respect to the feature maps of a convolutional layer to produce a heatmap highlighting the important regions for the prediction. It can be applied to multimodal models by visualizing the important regions in image data and correlating them with other modalities, such as text descriptions. For example, in a model diagnosing lung cancer, Grad-CAM can highlight regions in a CT scan that are indicative of cancer, while also showing related keywords in the radiology report \cite{Selvaraju_2019,raghavan2024attention}. 
+    %The standard formulation is
+  %  \begin{equation}
+   % \alpha_k^c = \frac{1}{Z} \sum_{i,j} %\frac{\partial y^c}{\partial A_{ij}^k},
+    %\qquad
+    %L^c_{\text{Grad-CAM}} = \mathrm{ReLU}\left( \sum_k \alpha_k^c A^k \right),
+    %\end{equation}
+    %where $A^k$ is feature map $k$, $y^c$ is the class-$c$ score, and $Z$ normalizes spatial positions.
+    %\begin{tcolorbox}[colback=yellow!5,colframe=yellow!75!black,title=\textbf{Clinical Suitability Assessment: Grad-CAM}]
+    %\textbf{Triage: Suitable only for lightweight image backbones}. We measured $3.76$ ms/case on the controlled benchmark. \textbf{Diagnosis: Partially suitable}. Heatmap stability across retrainings was only $0.725$, lower than all token-based explanation methods. \textbf{Cross-modal validity: Limited}. When only the tabular hospital-bias feature was perturbed, the heatmap changed by $0.031$ on average, demonstrating measurable modality leakage. \textbf{Treatment/Audit: Limited}. Grad-CAM remains local and visual, but not counterfactual or regulation-ready.
+    %\end{tcolorbox}
+    %\item \textbf{Layer-wise Relevance Propagation (LRP):}
 LRP explains neural network predictions by redistributing the output score backward through the network until relevance values are assigned to input pixels or features. In medical imaging, this can produce fine-grained relevance maps indicating which image regions contributed most strongly to a prediction. A common propagation rule is
-\[
+
+\begin{equation}
 R_i = \sum_j \frac{a_i w_{ij}}{\sum_{i'} a_{i'} w_{i'j} + \epsilon} R_j ,
-\]
-where \(a_i\) denotes the activation of neuron \(i\), \(w_{ij}\) the weight connecting neuron \(i\) to neuron \(j\), \(R_j\) the relevance assigned to neuron \(j\), and \(\epsilon\) a stabilizing term. Clinically, this corresponds to redistributing the model's prediction score backward to identify which input regions or variables supported the decision.
+\label{eq:lrp_rule}
+\end{equation}
 
-\textbf{Clinical Suitability Assessment: LRP.}
-\textbf{Triage: Limited / not benchmarked.} LRP can be computationally efficient once the relevance propagation rules are implemented, but its runtime depends on network depth, layer composition, and the propagation rules selected for each layer. We therefore did not include LRP in the controlled benchmark, because no architecture-neutral implementation was available for the multimodal fusion model evaluated in Section~6. Consequently, its triage suitability cannot be inferred from our latency results.
+Equation~\eqref{eq:lrp_rule} formalizes this backward redistribution of relevance from neuron \(j\) to neuron \(i\). Where \(a_i\) denotes the activation of neuron \(i\), \(w_{ij}\) the weight connecting neuron \(i\) to neuron \(j\), \(R_j\) the relevance assigned to neuron \(j\), and \(\epsilon\) a stabilizing term. Clinically, this corresponds to redistributing the model's prediction score backward to identify which input regions or variables supported the decision.
 
-\textbf{Diagnosis: Partially suitable.} LRP provides fine-grained pixel- or feature-level relevance scores and can support local inspection of image regions contributing to diagnostic predictions. However, the resulting explanations are model-specific and rule-dependent: different propagation rules may produce different relevance distributions, particularly in architectures combining convolutional, attention-based, and tabular-fusion components. This limits comparability across heterogeneous multimodal models and reduces LRP's portability as a diagnostic explainer.
+%\textbf{Clinical Suitability Assessment: LRP.}
+%\textbf{Triage: Limited / not benchmarked.} LRP can be computationally efficient once the relevance propagation rules are implemented, but its runtime depends on network depth, layer composition, and the propagation rules selected for each layer. We therefore did not include LRP in the controlled benchmark, because no architecture-neutral implementation was available for the multimodal fusion model evaluated in Section~6. Consequently, its triage suitability cannot be inferred from our latency results.
+%\textbf{Diagnosis: Partially suitable.} LRP provides fine-grained pixel- or feature-level relevance scores and can support local inspection of image regions contributing to diagnostic predictions. However, the resulting explanations are model-specific and rule-dependent: different propagation rules may produce different relevance distributions, particularly in architectures combining convolutional, attention-based, and tabular-fusion components. This limits comparability across heterogeneous multimodal models and reduces LRP's portability as a diagnostic explainer.
 
-\textbf{Treatment: Unsuitable in its standard form.} LRP explains how the current prediction is supported by input features, but it does not directly answer counterfactual treatment questions, such as whether the recommendation would change under an alternative intervention, missing modality, or modified clinical variable. For ACE treatment-selection use cases, LRP would therefore need to be combined with explicit perturbation, ablation, or counterfactual analysis.
+%\textbf{Treatment: Unsuitable in its standard form.} LRP explains how the current prediction is supported by input features, but it does not directly answer counterfactual treatment questions, such as whether the recommendation would change under an alternative intervention, missing modality, or modified clinical variable. For ACE treatment-selection use cases, LRP would therefore need to be combined with explicit perturbation, ablation, or counterfactual analysis.
 
-\textbf{Audit: Conditional.} The relevance-conservation principle gives LRP an appealing internal consistency property, since relevance is redistributed backward through the network rather than assigned independently after prediction. However, this mathematical consistency should not be equated with clinical auditability. In our controlled setting, LRP stability across retrainings, sensitivity to propagation-rule choices, and robustness under the spurious hospital-shift intervention were not measured.
+%\textbf{Audit: Conditional.} The relevance-conservation principle gives LRP an appealing internal consistency property, since relevance is redistributed backward through the network rather than assigned independently after prediction. However, this mathematical consistency should not be equated with clinical auditability. In our controlled setting, LRP stability across retrainings, sensitivity to propagation-rule choices, and robustness under the spurious hospital-shift intervention were not measured.
 
-\textbf{Monitoring: Not suitable as a standalone lifecycle diagnostic.} Standard LRP does not provide native drift detection, recalibration triggers, or temporal consistency metrics. It may help inspect individual failure cases after drift has been detected, but it does not itself determine whether the model remains valid over time.
+%\textbf{Monitoring: Not suitable as a standalone lifecycle diagnostic.} Standard LRP does not provide native drift detection, recalibration triggers, or temporal consistency metrics. It may help inspect individual failure cases after drift has been detected, but it does not itself determine whether the model remains valid over time.
 
-\textbf{Key gap:} LRP requires white-box access and architecture-specific relevance rules, limiting deployment flexibility in heterogeneous multimodal systems. Its strongest role is therefore local diagnostic inspection in fixed, well-characterized architectures, rather than real-time triage, treatment counterfactuals, or lifecycle monitoring.
+%\textbf{Key gap:} LRP requires white-box access and architecture-specific relevance rules, limiting deployment flexibility in heterogeneous multimodal systems. Its strongest role is therefore local diagnostic inspection in fixed, well-characterized architectures, rather than real-time triage, treatment counterfactuals, or lifecycle monitoring.
 
-    %\textbf{Layer-wise Relevance Propagation (LRP):} LRP propagates the prediction backward through the network, assigning relevance scores to each neuron in each layer. This allows for the visualization of the contribution of each input feature to the final prediction. LRP can be extended to multimodal models to understand the relevance of features across different modalities. For instance, LRP can show how different parts of an image and different sections of a text report contribute to a specific diagnosis  \cite{bach2015pixel}.
-\end{itemize}
+
+    %\textbf{Layer-wise Relevance Propagation (LRP):} LRP propagates the prediction backward through the network, assigning relevance scores to each neuron in each layer. This allows for the visualization of the contribution of each input feature to twhahe final prediction. LRP can be extended to multimodal models to understand the relevance of features across different modalities. For instance, LRP can show how different parts of an image and different sections of a text report contribute to a specific diagnosis  \cite{bach2015pixel}.
+%\end{itemize}
+%LRP was not included in the controlled benchmark (no architecture-neutral implementation available for the multimodal fusion model). Its ACE profile is therefore based on literature evidence only: suitable for local diagnostic inspection in fixed architectures; unsuitable for triage (runtime depends on propagation rules), treatment (no counterfactual support), and monitoring (no drift detection). White-box access and rule selection remain key deployment barriers.
 
 \subsubsection{Attention Mechanisms}
 
@@ -439,23 +496,28 @@ Attention mechanisms, particularly in transformer models, provide a form of intr
     In a typical cross-modal attention setup, each modality (e.g., image, text) is first processed by a modality-specific encoder to extract relevant features. Then, an attention mechanism is applied to compute attention weights between the features of different modalities. For instance, when analyzing a medical image (e.g., an X-ray) alongside a patient's clinical report, the model calculates attention scores between each region in the image and each word or phrase in the report.
 
     Mathematically, if we have image features \( I = \{i_1, i_2, ..., i_n\} \) and text features \( T = \{t_1, t_2, ..., t_m\} \), the cross-modal attention weights \( \alpha_{jk} \) between image region \( i_j \) and text element \( t_k \) can be computed as:
+\begin{equation}
+     \alpha_{jk} = \frac{\exp(s(i_j, t_k))}{\sum_{k'=1}^{m} \exp(s(i_j, t_{k'}))} 
+\label{eq:cross_modal_attention}
+\end{equation}
 
-    \[ \alpha_{jk} = \frac{\exp(s(i_j, t_k))}{\sum_{k'=1}^{m} \exp(s(i_j, t_{k'}))} \]
+    In Equation~\eqref{eq:cross_modal_attention}, \( s(i_j, t_k) \) is a scoring function that measures the relevance or similarity between \( i_j \) and \( t_k \). This scoring function can be a learned parameter or a predefined similarity metric, such as cosine similarity.
 
-    where \( s(i_j, t_k) \) is a scoring function that measures the relevance or similarity between \( i_j \) and \( t_k \). This scoring function can be a learned parameter or a predefined similarity metric, such as cosine similarity.
+    The attended features for the image modality, \( \hat{I} \), can then be calculated as a weighted sum in Equation~\eqref{eq:image_attended_features}.
+\begin{equation}
+     \hat{I}_j = \sum_{k=1}^{m} \alpha_{jk} t_k 
+\label{eq:image_attended_features}
+\end{equation}
+    Similarly, attended features for the text modality, \( \hat{T} \), are computed using Equation~\eqref{eq:text_attended_features}.
 
-    The attended features for the image modality, \( \hat{I} \), can then be calculated as a weighted sum:
-
-    \[ \hat{I}_j = \sum_{k=1}^{m} \alpha_{jk} t_k \]
-
-    Similarly, attended features for the text modality, \( \hat{T} \), can be computed as:
-
-    \[ \hat{T}_k = \sum_{j=1}^{n} \alpha_{jk} i_j \]
-    
+\begin{equation}
+     \hat{T}_k = \sum_{j=1}^{n} \alpha_{jk} i_j 
+\label{eq:text_attended_features}
+\end{equation}
     These attended features are then used for the final prediction.
     
     \begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=\textbf{Clinical Suitability Assessment: Attention}]
-    \textbf{Triage: Suitable}. Attention extraction was the fastest explanation in our benchmark at $2.75$ ms/case. \textbf{Diagnosis: Partially suitable}. In the baseline model, the highest mean attention weight was assigned to the non-causal \textit{hospital\_bias} token ($0.352$), exceeding the biomarker token ($0.250$). \textbf{Audit: Partially suitable}. Seed stability was high (cosine $0.929$), but the explanation still tracked spurious institutional signal until causal training reduced hospital attention to $0.179$. \textbf{Key gap}: low latency does not imply causal faithfulness.
+    \textbf{Triage: Suitable}. Attention extraction was the fastest explanation in our benchmark at $1.15$ ms/case. \textbf{Diagnosis: Partially suitable}. In the baseline model, the highest mean attention weight was assigned to the non-causal \textit{hospital\_bias} token ($0.410$), exceeding the biomarker token ($0.154$). \textbf{Audit: Partially suitable}. Seed stability was high (cosine $0.847$), but the explanation still tracked spurious institutional signal until causal training reduced hospital attention to $0.265$. \textbf{Key gap}: low latency does not imply causal faithfulness.
     \end{tcolorbox}
 
 %    \textbf{Application in Healthcare:} In healthcare, cross-modal attention can significantly improve diagnostic accuracy by integrating information from multiple sources. Consider the task of diagnosing pulmonary embolism from a combination of CT scans and clinical notes. The model can use cross-modal attention to identify regions in the CT scan that are most relevant to specific phrases in the clinical notes, such as "shortness of breath" or "chest pain." By focusing on these areas, the model can make a more informed diagnosis.
@@ -494,8 +556,9 @@ Multimodal Large Language Models suffer from hallucinations---generating plausib
 \textbf{V-RAG Framework:}
 \begin{equation}
 \mathcal{R}_k(x)=\operatorname{top\text{-}k}_{z \in \mathcal{D}} \cos \big(e(x), e(z)\big),
+\label{eq:vrag_retrieval}
 \end{equation}
-where $e(\cdot)$ is a joint image-text encoder and $\mathcal{R}_k(x)$ returns the top-$k$ retrieved support cases.
+In Equation~\eqref{eq:vrag_retrieval}, $e(\cdot)$ is a joint image-text encoder and $\mathcal{R}_k(x)$ returns the top-$k$ retrieved support cases.
 \begin{itemize}
     \item Retrieves top-k similar images using embeddings from MedCLIP encoder
     \item Compares query image with retrieved images via cross-modal attention
@@ -506,9 +569,9 @@ where $e(\cdot)$ is a joint image-text encoder and $\mathcal{R}_k(x)$ returns th
 
 This approach provides post-hoc explainability through retrieval citation, showing clinicians which cases informed the prediction \cite{chu2025reducinghallucinationsmedicalmultimodal}.
 \begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=\textbf{Clinical Suitability Assessment: Retrieval-Grounded Explanations}]
-\textbf{Audit: Promising}. We evaluated a retrieval-only proxy rather than the full V-RAG stack: nearest-case retrieval added $3.07$ ms/case and achieved evidence purity $0.52$ on the spurious baseline, increasing to $0.73$ after causal training. \textbf{Diagnosis: Conditional}. Retrieval improves traceability, but our experiment does not measure report rewriting latency or citation hallucinations. \textbf{Key gap}: full V-RAG pipelines remain constrained by retrieval quality and downstream LLM latency.
+\textbf{Audit: Promising}. We evaluated a retrieval-only proxy rather than the full V-RAG stack: nearest-case retrieval added $2.35$ ms/case and achieved evidence purity $0.413$ on the spurious baseline, increasing to $0.584$ after causal training. \textbf{Diagnosis: Conditional}. Retrieval improves traceability, but our experiment does not measure report rewriting latency or citation hallucinations. \textbf{Key gap}: full V-RAG pipelines remain constrained by retrieval quality and downstream LLM latency.
 \end{tcolorbox}
-From an ACE perspective, retrieval-grounded explanations represent on of the most promising current approach for satisfying the auditability requirement, as they provide explicit evidence trails linking predictions to real clinical cases.
+From an ACE perspective, retrieval-grounded explanations represent one of the most promising current approach for satisfying the auditability requirement, as they provide explicit evidence trails linking predictions to real clinical cases.
 
 \subsubsection{Modality-Specific Explanations}
 
@@ -520,14 +583,15 @@ While MXAI methods often focus on integrating information across modalities, it'
     \item \textbf{Modality Ablation:} One approach is to systematically remove or perturb the information from each modality and observe the effect on the model's prediction. For example, one could mask out the image modality and see how the prediction changes when only text data is available. This can provide a direct measure of modality importance:
     \begin{equation}
     \Delta_m(x) = f(x) - f(x_{\setminus m}),
+    \label{eq:modality_ablation}    
     \end{equation}
-    where $x_{\setminus m}$ denotes the input with modality $m$ removed or replaced by a neutral baseline.
+    In Equation~\eqref{eq:modality_ablation}, $x_{\setminus m}$ denotes the input with modality $m$ removed or replaced by a neutral baseline.
     \item \textbf{Modality-Specific Feature Importance:} Techniques like SHAP can be adapted to provide modality-specific feature importance scores. This involves calculating SHAP values for features within each modality separately, providing insights into which features within each modality are most influential.
     \item \textbf{Decomposed Attention:} In models with attention mechanisms, it's possible to decompose the attention weights to determine how much attention is being paid to each modality at different stages of processing. This can reveal which modality is driving the prediction at each step.
 \end{itemize}
 
 \begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=\textbf{Clinical Suitability Assessment: Modality Ablation}]
-\textbf{Treatment and Monitoring: Strong candidate}. Mean latency was $8.09$ ms/case with causal alignment $\rho=0.90$ and seed stability $0.911$ in our benchmark. On the OOD shift, masking the non-causal \textit{hospital\_bias} feature reduced baseline accuracy by $51.7$ points, directly exposing spurious multimodal dependence. \textbf{Audit: Partially suitable}. The mechanism is transparent, but interpretation still depends on the chosen masking intervention. \textbf{Key gap}: inter-modality dependencies can make single-modality removal overestimate importance.
+\textbf{Treatment and Monitoring: Strong candidate}. Mean latency was $3.98$ ms/case with causal alignment $\rho=1.00$ and seed stability $0.827$ in our benchmark. On the OOD shift, masking the non-causal \textit{hospital\_bias} feature reduced baseline accuracy by $42.9$ points, directly exposing spurious multimodal dependence. \textbf{Audit: Partially suitable}. The mechanism is transparent, but interpretation still depends on the chosen masking intervention. \textbf{Key gap}: inter-modality dependencies can make single-modality removal overestimate importance.
 \end{tcolorbox}
 
 \textbf{Example in Healthcare:}
@@ -555,19 +619,19 @@ This subsection outlines the key architectural designs for multimodal learning, 
 
 Multimodal architectures are designed to process and integrate information from different data modalities. In healthcare, these architectures are essential for leveraging the diverse types of data available, such as medical images, clinical notes, and genomic data. Effective integration of these modalities can lead to more accurate and comprehensive diagnostic and prognostic models.
 
-\begin{itemize}
-    \item \textbf{Transformers and Attention Models:} 
+
+\textbf{Transformers and Attention Models:} 
     As introduced in subsection \ref{subsection:multimodalaiandxai}, transformers model cross-modal relationships through attention mechanisms, enabling effective integration of imaging and clinical data in healthcare \cite{rodis2024multimodalexplainableartificialintelligence, HOFMANN2022119504}
     %As discussed, transformers, particularly with their attention mechanisms, have become central to multimodal learning. They excel at modeling relationships between different modalities, making them suitable for tasks like visual question answering and multimodal machine translation. In healthcare, transformers can integrate and analyze data from various sources, such as combining imaging data with patient records to improve diagnostic accuracy \cite{rodis2024multimodalexplainableartificialintelligence, HOFMANN2022119504}. For example, a transformer model can analyze both MRI scans and clinical notes to provide a more holistic diagnosis of neurological conditions, leveraging the strengths of both modalities to enhance prediction reliability.
-    \item \textbf{Advanced Fusion Networks:} Recent architectures address modality dropout, missing data, and causal alignment through attention-based fusion. MDFormer focuses on robustness to missing modalities, while CausalCLIPSeg introduces causal intervention into CLIP-based medical segmentation \cite{li2025mdformer,chen2025causalclipsegunlockingclipspotential}.
+\textbf{Advanced Fusion Networks:} Recent architectures address modality dropout, missing data, and causal alignment through attention-based fusion. MDFormer focuses on robustness to missing modalities, while CausalCLIPSeg introduces causal intervention into CLIP-based medical segmentation \cite{li2025mdformer,chen2025causalclipsegunlockingclipspotential}.
 
-    \item \textbf{Neuro-Symbolic Integration:} Combining neural networks with medical ontologies or semantic layers can make explanations more rule-grounded and easier to audit in distributed healthcare settings. SemFedXAI is one example of this direction \cite{info16060435}.
+\textbf{Neuro-Symbolic Integration:} Combining neural networks with medical ontologies or semantic layers can make explanations more rule-grounded and easier to audit in distributed healthcare settings. SemFedXAI is one example of this direction \cite{info16060435}.
     
-    \textbf{Multimodal Fusion Strategies \ref{fig:multimodal_fusion_strategies}}
+    \textbf{Multimodal Fusion Strategies }
 
-    Three main fusion strategies are compared in Figure 2.
-    \begin{itemize}
-        \item \textbf{Early Fusion (Feature-Level Fusion):} Early fusion involves combining the raw data or features from different modalities at an early stage of processing. This can be as simple as concatenating feature vectors from each modality before feeding them into a single model.
+    Three main fusion strategies are compared in Figure \ref{fig:multimodal_fusion_strategies}.
+\subsubsection{Early Fusion (Feature-Level Fusion)}
+Early fusion involves combining the raw data or features from different modalities at an early stage of processing. This can be as simple as concatenating feature vectors from each modality before feeding them into a single model.
         
         \textbf{Example in Healthcare:} In early fusion, genomic data, clinical notes, and medical images can be processed by modality-specific encoders to extract relevant features. These features are then concatenated into a single feature vector and fed into a classifier for disease diagnosis. For instance, an early fusion model might combine features extracted from MRI scans, genomic sequences, and patient history to predict the likelihood of Alzheimer's disease.
         
@@ -583,7 +647,8 @@ Multimodal architectures are designed to process and integrate information from 
             \item Can result in high-dimensional feature vectors, increasing computational complexity.
         \end{itemize}
         
-        \item \textbf{Late Fusion (Decision-Level Fusion):} Late fusion involves training separate models on each modality and then combining their predictions at a later stage. This can be done using techniques like averaging, voting, or stacking.
+       \subsubsection{Late Fusion (Decision-Level Fusion)} 
+       Late fusion involves training separate models on each modality and then combining their predictions at a later stage. This can be done using techniques like averaging, voting, or stacking.
         
         \textbf{Example in Healthcare:} Separate models can be trained to analyze medical images, genomic data, and clinical notes independently. The predictions from each model are then combined using a fusion mechanism, such as a weighted average, to make the final diagnosis. For example, one model might predict the likelihood of cancer from a CT scan, another from genomic data, and a third from patient history. The final prediction is then made by combining the outputs of these models.
                 
@@ -599,7 +664,8 @@ Multimodal architectures are designed to process and integrate information from 
             \item Requires careful calibration of the individual models to ensure their predictions are comparable.
         \end{itemize}
 
-        \item \textbf{Hybrid Fusion:} Hybrid fusion combines aspects of both early and late fusion. For example, some modalities might be fused early on, while others are fused later, or intermediate representations from modality-specific models might be combined and processed jointly. Figure \ref{fig:multimodal_fusion_strategies} summarizes the three multimodal fusion strategies.
+        \subsubsection{Hybrid Fusion} 
+        Hybrid fusion combines aspects of both early and late fusion. For example, some modalities might be fused early on, while others are fused later, or intermediate representations from modality-specific models might be combined and processed jointly. Figure \ref{fig:multimodal_fusion_strategies} summarizes the three multimodal fusion strategies.
         
         \textbf{Example in Healthcare:} A hybrid fusion model might combine features from medical images and genomic data using early fusion, while incorporating clinical notes at a later stage through late fusion. This allows the model to learn interactions between images and genomic data early on, while also leveraging the predictions of a separate model trained on clinical notes. For instance, a hybrid model for predicting treatment response in cancer patients might use early fusion to combine features from PET scans and genomic profiles, and then use late fusion to integrate the predictions from a model trained on the patient's medical history and lab results.
 
@@ -614,7 +680,6 @@ Multimodal architectures are designed to process and integrate information from 
             \item More complex to design and implement than early or late fusion.
             \item Requires careful tuning of the fusion points and strategies.
         \end{itemize}
-    \end{itemize}
     
     \begin{figure}
         \centering
@@ -629,10 +694,10 @@ Multimodal architectures are designed to process and integrate information from 
     \textbf{Future Directions:}
     Future research in multimodal fusion for MXAI should focus on developing more adaptive and dynamic fusion strategies that can automatically determine the optimal fusion points and methods based on the specific characteristics of the data and the task. Additionally, exploring how to explain the fusion process itself, i.e., understanding how the model combines information from different modalities, is a crucial area for future work in MXAI.
 
-    \item \textbf{Hybrid Models:} 
+\textbf{Hybrid Models:} 
 Hybrid models such as DeepXplainer \cite{wani2024deepxplainer} combine CNNs with tree-based classifiers to balance performance and interpretability, as discussed in Section 2.2.
     %These combine different model types to leverage their strengths. For example, DeepXplainer combines CNNs and tree-based models to improve both accuracy and explainability. In healthcare, hybrid models can offer the performance benefits of deep learning with the interpretability of simpler models. For instance, a hybrid model might use a CNN to process medical images and a decision tree to incorporate clinical data, providing both high accuracy and clear explanations for the predictions \cite{wani2024deepxplainer}. Combining the strengths of different model types helps in developing robust and interpretable AI systems for various healthcare applications.
-\end{itemize}
+
 
 \textbf{Conclusion of MXAI Architectures:}
 
@@ -642,17 +707,17 @@ The architectural designs for multimodal learning, including transformers, fusio
 
 This subsection showcases how MXAI is being applied in various medical fields, highlighting specific examples and case studies.
 
-Multimodal XAI has been successfully applied in diverse fields, demonstrating its versatility and impact. In healthcare, MXAI enhances diagnostic accuracy, personalizes treatment plans, and improves decision-making processes by integrating and interpreting data from multiple modalities.
+Multimodal XAI has been successfully applied in diverse fields, demonstrating its versatility and impact. In healthcare, MXAI enhances diagnostic accuracy, personalizes treatment plans, and improves decision-making processes by integrating and interpreting data from multiple modalities. \textcolor{red}{Unless explicitly described as a reported deployment or clinical study, the workflows in this section are illustrative scenarios used to show how MXAI methods could support clinical actions. They should not be interpreted as evidence of clinical deployment or validated patient benefit. }
 
 \subsubsection{Disease Diagnosis}
 
 MXAI is used to improve diagnostic accuracy by integrating data from medical images, patient records, and lab results. Integrating multiple data sources allows for a more comprehensive understanding of a patient's condition, leading to more accurate diagnoses.
 The following workflows are illustrative scenarios designed to exemplify how MXAI methods could be applied in clinical settings. They do not report empirical results from deployed systems unless explicitly referenced.
 
-\begin{itemize}
-    \item \textbf{Cancer Diagnosis and Prognosis:} Models combining histopathological images with genomic data can aid in cancer diagnosis and prognosis. Explainable methods like Grad-CAM and SHAP are used to highlight the regions in images and the genomic features that contribute to the diagnosis. For example, combining image analysis of tumor biopsies with genomic data can provide insights into tumor heterogeneity and inform treatment decisions \cite{Mohan_2025, wani2024deepxplainer}.
 
-    \textbf{Illustrative Workflow: Breast Cancer Diagnosis}
+     \textbf{Cancer Diagnosis and Prognosis:} Models combining histopathological images with genomic data can aid in cancer diagnosis and prognosis. Explainable methods like Grad-CAM and SHAP are used to highlight the regions in images and the genomic features that contribute to the diagnosis. For example, combining image analysis of tumor biopsies with genomic data can provide insights into tumor heterogeneity and inform treatment decisions \cite{Mohan_2025, wani2024deepxplainer}.
+
+    \textbf{Breast Cancer Diagnosis}
     \begin{itemize}
         \item \textbf{Medical Problem:} Accurate and early diagnosis of breast cancer is crucial for effective treatment and improved patient outcomes.
         \item \textbf{Modalities Used:} Mammograms (images) and patient clinical data (age, family history, etc.).
@@ -661,9 +726,9 @@ The following workflows are illustrative scenarios designed to exemplify how MXA
         \item \textbf{Potential Clinical Use:} In practice, such systems are best framed as reader-assistance tools that help contextualize predictions for radiologists rather than as standalone diagnostic replacements \cite{Bai_2025}.
     \end{itemize}
 
-    \item \textbf{Neurological Disorders:} MXAI can integrate MRI scans, EEG data, and clinical notes to diagnose conditions like epilepsy and Alzheimer's disease. Attention mechanisms can highlight the brain regions and clinical factors contributing to the diagnosis, enhancing the interpretability of the model's predictions.
+     \textbf{Neurological Disorders:} MXAI can integrate MRI scans, EEG data, and clinical notes to diagnose conditions like epilepsy and Alzheimer's disease. Attention mechanisms can highlight the brain regions and clinical factors contributing to the diagnosis, enhancing the interpretability of the model's predictions.
     
-    \textbf{Illustrative Workflow: Alzheimer's Disease Diagnosis}
+    \textbf{Alzheimer's Disease Diagnosis}
     \begin{itemize}
         \item \textbf{Medical Problem:} Early and accurate diagnosis of Alzheimer's disease is challenging but essential for timely intervention and management.
         \item \textbf{Modalities Used:} MRI scans, PET scans, cognitive test scores, and patient demographics.
@@ -672,7 +737,7 @@ The following workflows are illustrative scenarios designed to exemplify how MXA
         \item \textbf{Potential Clinical Use:} The main value of this pattern is to summarize convergent evidence across modalities when early-stage findings are individually weak or noisy.
     \end{itemize}
 
-    \item \textbf{Foundation Model Deployment Example: SimonMed-Lunit Partnership}
+     \textbf{Foundation Model Deployment Example: SimonMed-Lunit Partnership}
     \begin{itemize}
         \item \textbf{Medical Problem:} Scalable chest X-ray report generation across 175+ imaging centers
         \item \textbf{Modalities Used:} Chest X-rays (images) + Radiology reports (text)
@@ -680,17 +745,17 @@ The following workflows are illustrative scenarios designed to exemplify how MXA
         \item \textbf{Publicly Reported Effect:} The deployment announcement describes faster report-generation workflows together with model monitoring for drift, but independent peer-reviewed validation remains limited \cite{lunit2025simonmed}
         \item \textbf{Why It Matters:} This example illustrates an industry pathway for operationalizing medical foundation models with monitoring hooks, even though it is not itself a full explainability evaluation \cite{lunit2025simonmed}
     \end{itemize}
-\end{itemize}
+
 
 
 \subsubsection{Treatment Planning}
 
 MXAI can help personalize treatment plans by considering patient-specific multimodal data. Integrating data from various sources ensures that treatment plans are tailored to individual patient needs, improving treatment efficacy and patient outcomes.
 
-\begin{itemize}
-    \item \textbf{Personalized Treatment Strategies:} Models integrating clinical notes, imaging data, and patient history can assist in determining optimal treatment strategies for complex diseases. For example, in oncology, MXAI can help tailor chemotherapy regimens based on tumor characteristics, patient genetics, and treatment response history.
 
-     \textbf{Illustrative Workflow: Personalized Chemotherapy Regimens}
+    \textbf{Personalized Treatment Strategies:} Models integrating clinical notes, imaging data, and patient history can assist in determining optimal treatment strategies for complex diseases. For example, in oncology, MXAI can help tailor chemotherapy regimens based on tumor characteristics, patient genetics, and treatment response history.
+
+     \textbf{Personalized Chemotherapy Regimens}
     \begin{itemize}
         \item \textbf{Medical Problem:} Determining the most effective chemotherapy regimen for individual cancer patients based on their unique characteristics and medical history.
         \item \textbf{Modalities Used:} Patient medical history (text), genomic data (tabular), and tumor images (images).
@@ -699,17 +764,16 @@ MXAI can help personalize treatment plans by considering patient-specific multim
         \item \textbf{Potential Clinical Use:} The main promise is to support clinician review of personalized regimens by surfacing the multimodal factors behind the recommendation, not to replace oncology decision-making.
     \end{itemize}
     
-    \item \textbf{Surgical Planning:} Transformer models have been employed to analyze laparoscopic videos, improving recognition and decision-making processes during surgeries \cite{rodis2024multimodalexplainableartificialintelligence}. Such models integrate text and image embeddings, enhancing prediction reliability and providing surgeons with valuable insights during procedures.
-\textcolor{For instance, a transformer model integrating chest X-rays with radiology reports can attend jointly to consolidation regions in the image and the phrase 'bilateral infiltrates' in the report, providing a grounded diagnostic explanation directly actionable by the radiologist.}
-     \textbf{Illustrative Workflow: Laparoscopic Surgery Assistance}
+     \textbf{Surgical Planning:} Transformer models have been employed to analyze laparoscopic videos, improving recognition and decision-making processes during surgeries \cite{rodis2024multimodalexplainableartificialintelligence}. Such models integrate text and image embeddings, enhancing prediction reliability and providing surgeons with valuable insights during procedures.For instance, a transformer model integrating chest X-rays with radiology reports can attend jointly to consolidation regions in the image and the phrase 'bilateral infiltrates' in the report, providing a grounded diagnostic explanation directly actionable by the radiologist.
+    \textbf{Laparoscopic Surgery Assistance}
     \begin{itemize}
         \item \textbf{Medical Problem:} Enhancing the precision and safety of laparoscopic surgeries through real-time analysis and guidance.
         \item \textbf{Modalities Used:} Laparoscopic video feed (video) and surgical tool movement data (time-series).
         \item \textbf{MXAI Methods Applied:} A transformer-based model with attention mechanisms was used to analyze the video feed and tool movements. Attention maps highlighted critical anatomical structures and surgical actions.
         \item \textbf{Explanation Role:} The workflow illustrates how attention maps and temporal signals could support phase recognition and highlight potentially risky maneuvers in minimally invasive surgery \cite{SADEGHI2024109370}.
-        \item \textbf{Potential Clinical Use:} The main near-term use is intraoperative decision support and surgical training, where explanations must remain low-latency and easy to inspect \cite{SADEGHI2024109370}.
+        \item \textbf{Potential Clinical Use:} The main near-term use is intraoperative decision support and surgical training, where explanations must remain low-latency and easy to inspect  \cite{SADEGHI2024109370}.
     \end{itemize}
-\end{itemize}
+
 
 
 \subsubsection{Case Studies}
@@ -766,7 +830,7 @@ Diagnosis: \partialcmark\\
 Treatment: \partialcmark\\
 Audit: \partialcmark\\
 Monitoring: \textcolor{red}{\xmark}} &
-294.16 ms & No & 0.968 & Image + tabular (grouped) &
+142.66 ms & No & 0.844 & Image + tabular (grouped) &
 High retraining consistency &
 Slow perturbational evaluation &
 No audit trail or uncertainty bound \\
@@ -778,7 +842,7 @@ Diagnosis: \partialcmark\\
 Treatment: \partialcmark\\
 Audit: \partialcmark\\
 Monitoring: \textcolor{red}{\xmark}} &
-111.54 ms & No & 0.951 & Image + tabular (grouped) &
+48.75 ms & No & 0.826 & Image + tabular (grouped) &
 Interpretable local surrogate &
 Neighborhood sensitivity &
 No standardized perturbation policy \\
@@ -790,7 +854,7 @@ Diagnosis: \partialcmark\\
 Treatment: \textcolor{red}{\xmark}\\
 Audit: \partialcmark\\
 Monitoring: \textcolor{red}{\xmark}} &
-10.60 ms & No & 0.959 & Differentiable multimodal models &
+5.62 ms & No & 0.875 & Differentiable multimodal models &
 Fast gradient-based ranking &
 Baseline dependence &
 No explanation confidence estimate \\
@@ -802,9 +866,9 @@ Diagnosis: \partialcmark\\
 Treatment: \textcolor{red}{\xmark}\\
 Audit: \textcolor{red}{\xmark}\\
 Monitoring: \textcolor{red}{\xmark}} &
-3.76 ms & No & 0.725 & Image branch only &
+2.30 ms & No & 0.868 & Image branch only &
 Fastest visual localization &
-Leakage score 0.031 under metadata shift &
+Leakage score 0.056 under metadata shift &
 No stability guarantee \\
 \hline
 
@@ -814,7 +878,7 @@ Diagnosis: \partialcmark\\
 Treatment: \textcolor{red}{\xmark}\\
 Audit: \partialcmark\\
 Monitoring: \textcolor{red}{\xmark}} &
-2.75 ms & No & 0.929 & Image + tabular tokens &
+1.15 ms & No & 0.847 & Image + tabular tokens &
 Fastest intrinsic explanation &
 Highest mean weight on spurious hospital token &
 No counterfactual validity or uncertainty \\
@@ -826,10 +890,10 @@ Diagnosis: \partialcmark\\
 Treatment: \partialcmark\\
 Audit: \textcolor{green}{\cmark}\\
 Monitoring: \partialcmark} &
-3.07 ms & Partial & Trace-based & Joint embedding retrieval &
+2.35 ms & Partial & Trace-based & Joint embedding retrieval &
 Explicit evidence trail &
-Evidence purity only 0.52 on spurious baseline &
-No report-grounding validation \\
+Evidence purity only 0.413 on spurious baseline &
+0.584 after causal training \\
 \hline
 
 Modality Ablation &
@@ -838,7 +902,7 @@ Diagnosis: \textcolor{green}{\cmark}\\
 Treatment: \textcolor{green}{\cmark}\\
 Audit: \partialcmark\\
 Monitoring: \textcolor{green}{\cmark}} &
-8.09 ms & Partial & 0.911 & Multimodal &
+3.98 ms & Partial & 0.827 & Multimodal &
 Direct intervention test &
 Intervention definition matters &
 No standardized masking protocol \\
@@ -862,7 +926,7 @@ The dominant trade-off is between latency and interventional faithfulness. Metho
 
 In contrast, modality ablation approximates interventional reasoning by explicitly modifying inputs and observing prediction changes, making it more suitable for treatment and monitoring tasks. This improved faithfulness, however, comes with higher computational cost and sensitivity to how interventions are defined, affecting reproducibility. Perturbation-based methods such as KernelSHAP and LIME follow a similar logic at finer granularity, providing stable attributions but incurring substantial latency, which restricts their use to offline analysis or audit scenarios.
 
-As conlusion, methods that are fast enough for real-time use lack interventional guarantees, while those that approximate intervention are too slow or operationally sensitive for continuous deployment. 
+In summary, the controlled benchmark reveals a fundamental trade-off that no current method resolves: methods fast enough for real-time clinical use (attention, Grad-CAM) lack interventional guarantees, while those that approximate causal reasoning (KernelSHAP, modality ablation) are too slow or operationally sensitive for continuous deployment. ACE makes this trade-off explicit and actionable by mapping it to specific clinical actions rather than treating it as an abstract algorithmic limitation.
 
 \begin{table}[h!]
 \centering
@@ -886,10 +950,12 @@ Monitoring & Modality Ablation, Retrieval Proxy & Limited temporal stability for
 
 This section discusses commonly used datasets for MXAI research in healthcare and the challenges of creating representative datasets. It also touches upon the need for standardized benchmarks to evaluate and compare MXAI methods.
 
+\textcolor{red}{Datasets were selected when they satisfied at least one of three criteria: (i) they are widely used in multimodal medical AI/XAI research, (ii) they support evaluation of cross-modal reasoning or explanation fidelity, or (iii) they represent an ACE-relevant clinical action such as diagnosis, audit, or monitoring. This selection is not intended as an exhaustive catalogue of all medical datasets, but as a structured set of representative resources for evaluating action-centered MXAI.}
+
 Datasets are crucial for training and evaluating multimodal AI models. Here are some commonly used datasets in MXAI research,  with a focus on healthcare applications:
 
 Current datasets benchmark MXAI methods on proxy tasks (classification accuracy, captioning BLEU) that do not align with clinical actions. For example, VQA-Med evaluates explanation quality via answer correctness, not whether the explanation supports a treatment decision.\newline 
-Future benchmarks must include action-specific metrics: latency distributions for triage, causal intervention accuracy for diagnosis, and explanation stability scores for audit trails, criteria operationalized in the controlled benchmark presented in Section 6 and the evaluation framework detailed in Section 7
+Future benchmarks must include action-specific metrics: latency distributions for triage, causal intervention accuracy for diagnosis, and explanation stability scores for audit trails, criteria operationalized in the controlled benchmark presented in Section 6 and the evaluation framework detailed in Section 7.
 
 %Future benchmarks must include \textit{action-specific metrics}: latency distributions for triage, causal intervention accuracy for diagnosis, and explanation stability scores for audit trails.
 
@@ -915,7 +981,7 @@ Dataset & Modality & Application & Size & Primary ACE Action \\ \hline
 MIMIC-III & Text, Tabular, Image & Healthcare Analytics & Over 40,000 patients & Audit, Monitoring\\ \hline
 VQA-Med & Text, Image & Visual Question Answering & Over 4,000 images & Diagnosis \\ \hline
 HAM10000 & Image & Skin Disease Classification & 10,015 images & Diagnosis, Triage\\ \hline
-Cholec80 & Video, Text & Surgical Video Analysis & 80 videos & Intraoperative \\ \hline 
+Cholec80 & Video, Text & Surgical Video Analysis & 80 videos & Treatment selection \\ \hline 
 LIDC-IDRI & CT Images & Lung Cancer Detection & 1,018 cases & Diagnosis, Triage\\ \hline
 IU X-Ray & Text, Image & Automated Report Generation & 7,470 images, 3,955 reports & Diagnosis, Audit \\ \hline 
 SMMILE & Image, Text & In-context learning evaluation & 1,200 clinical problems & Diagnosis, Audit\\ \hline
@@ -940,10 +1006,9 @@ PairDx & Image, Text & Universal medical diagnosis & 22,665 image-text pairs & D
 
 Benchmarks are essential for evaluating and comparing the performance of different MXAI methods. They typically consist of a dataset, a set of tasks, and evaluation metrics. Several efforts are underway to establish standardized benchmarks for MXAI:
 
-\begin{itemize}
-    \item \textbf{ImageCLEF:} An annual evaluation campaign that includes tasks involving medical image analysis. The 2023 edition featured a task on visual question answering and generation in the medical domain, providing a benchmark for evaluating cross-modal understanding in MXAI systems \cite{crowe2023imageclef}.
-    \item \textbf{PhysioNet Challenges:} A series of challenges focused on physiological data, often including multiple modalities such as ECG, EEG, and other time-series data. These challenges provide benchmarks for tasks like arrhythmia detection and sleep stage classification \cite{goldberger2000physiobank}.
-\end{itemize}
+
+\textbf{ImageCLEF:} An annual evaluation campaign that includes tasks involving medical image analysis. The 2023 edition featured a task on visual question answering and generation in the medical domain, providing a benchmark for evaluating cross-modal understanding in MXAI systems \cite{crowe2023imageclef}.\\
+\textbf{PhysioNet Challenges:} A series of challenges focused on physiological data, often including multiple modalities such as ECG, EEG, and other time-series data. These challenges provide benchmarks for tasks like arrhythmia detection and sleep stage classification \cite{goldberger2000physiobank}.\\
 Despite these efforts, no existing benchmark simultaneously evaluates explanation latency, causal alignment, and stability under distribution shift, the three properties most critical under the ACE framework. The controlled benchmark introduced in Section 6 addresses this gap on a reproducible small-scale setting, while Section 7 proposes a broader evaluation protocol for future large-scale benchmarks.}\newline
 \textbf{Conclusion of Datasets and Benchmarks:}
 
@@ -953,9 +1018,9 @@ Datasets and benchmarks play a critical role in the development and evaluation o
 \section{Controlled Experimental Assessment of ACE Claims}
 \label{sec:controlled_experiments}
 
-To move several ACE assessments from literature-grounded judgment to measured evidence, we implemented a small but fully reproducible multimodal benchmark in the workspace 
+To move several ACE assessments from literature-grounded judgment to measured evidence, we implemented a small but fully reproducible multimodal benchmark in the public github workspace. The goal was not to reproduce a hospital-scale deployment, but to stress the core claims that underlie the ACE taxonomy: explanation latency, robustness to spurious multimodal cues, stability across retraining, and cross-modal leakage.
 
-(\texttt{experiments/mxai\_assessment.py}). The goal was not to reproduce a hospital-scale deployment, but to stress the core claims that underlie the ACE taxonomy: explanation latency, robustness to spurious multimodal cues, stability across retraining, and cross-modal leakage.
+\textcolor{red}{All benchmark scripts, raw predictions, summary tables, figure-generation code, seeds, and environment specifications are released in a public GitHub repository and archived on Zenodo. The expanded Section 6 benchmark uses 20 random seeds, a nine-value λ grid, 500 OOD cases, and 5000 bootstrap repetitions. The archive reports package versions, hardware details, and raw case-level predictions to support exact reproduction of the McNemar, Wilcoxon, and confidence-interval analyses. }
 
 \subsection{Benchmark Design}
 
@@ -964,26 +1029,49 @@ We used DermaMNIST, a $28 \times 28$ dermoscopic derivative of HAM10000 \cite{Ts
 The fusion model used a three-layer CNN image encoder, tokenized tabular inputs, and a single four-head self-attention block. We compared a standard model with a causal-invariance variant trained with
 \begin{equation}
 \mathcal{L}_{\text{total}} = \mathcal{L}_{\text{CE}}(f(x,z), y) + \lambda \left\| \sigma(f(x,z)) - \sigma(f(x,\tilde{z}_{\text{hospital}})) \right\|_2^2,
+\label{eq:causal_invariance_objective}
 \end{equation}
-where $\tilde{z}_{\text{hospital}}$ permutes the hospital-bias feature within the batch. We trained on 2,000 samples for four epochs on an RTX 4050 Laptop GPU and measured explanations on 12 OOD test cases using Captum implementations of attention extraction, Integrated Gradients, LIME, KernelSHAP, modality ablation, and Grad-CAM. Because the benchmark is intentionally lightweight, absolute latencies should be interpreted as lower bounds relative to full-resolution clinical pipelines.\newline
-The OOD test set was limited to 12 cases due to the intentionally lightweight nature of this benchmark. Results should therefore be interpreted as directional rather than statistically conclusive; confidence intervals are not reported and replication on larger test sets is strongly encouraged before drawing deployment conclusions.
-We also evaluated a retrieval-only case-based explainer as a lightweight proxy for retrieval-grounded explanation. Embeddings were extracted from the image encoder of the trained fusion model. For each OOD test case, the top-5 nearest training cases were retrieved by cosine similarity in embedding space. Evidence purity was measured as the proportion of retrieved cases sharing the ground-truth label with the query.
+
+\textcolor{red}{In Equation~\eqref{eq:causal_invariance_objective}, $\tilde{z}_{\text{hospital}}$ permutes the hospital-bias feature within the batch. We trained each model on 2,000 samples for four epochs on an RTX 4050 Laptop GPU. To strengthen the robustness analysis, we evaluated model performance on a 500-case OOD subset across 20 random seeds and swept the causal-invariance weight $\lambda$ over nine values: $\{0.10, 0.25, 0.50, 0.75, 1.00, 1.50, 2.00, 3.00, 4.00\}$. Confidence intervals were estimated with 5,000 bootstrap resamples. Paired model comparisons used exact McNemar tests on pooled case-level correctness and Wilcoxon signed-rank tests across seeds.}
+
+\textcolor{red}{We measured explanations on the same 500-case OOD subset using Captum implementations of attention extraction, Integrated Gradients, LIME, KernelSHAP, modality ablation, and Grad-CAM. Because the benchmark uses lightweight $28 \times 28$ images and a compact fusion backbone, absolute latencies should be interpreted as lower bounds relative to full-resolution clinical pipelines.}
+
+\textcolor{red}{We also evaluated a retrieval-only case-based explainer as a lightweight proxy for retrieval-grounded explanation. Embeddings were extracted from the image encoder of the trained fusion model. For each OOD test case, the top-5 nearest training cases were retrieved by cosine similarity in embedding space. Evidence purity was measured as the proportion of retrieved cases sharing the ground-truth label with the query.}
 %We also evaluated a retrieval-only case-based explainer as a lightweight proxy for retrieval-grounded explanation, measuring top-5 evidence purity and lookup latency without adding an LLM report-generation stage.
 \subsection{Main Findings}
 We first assess model-level robustness under the spurious shift (Table 5), then examine how this shift propagates into explanation behavior across methods (Table 6). The two tables should be read jointly: a model that relies on spurious features will produce explanations that reflect that reliance, regardless of the explainer used.
+
 \begin{table}[h!]
 \centering
-\caption{Robustness of the controlled multimodal benchmark under hospital-feature shift}
+\caption{Controlled robustness results under distribution shift.}
 \label{tab:controlled_robustness}
-\begin{tabular}{|l|c|c|c|}
+\begin{tabular}{llllll}
 \hline
-\textbf{Model} & \textbf{ID Accuracy} & \textbf{OOD Accuracy} & \textbf{Generalization Gap} \\ \hline
-Baseline fusion & 89.8\% & 66.1\% & -23.6 pts \\ \hline
-Causal-invariance fusion & 85.8\% & 82.9\% & -2.9 pts \\ \hline
+\multicolumn{1}{|l|}{Model} &
+\multicolumn{1}{l|}{$\lambda$} &
+\multicolumn{1}{l|}{ID Acc.} &
+\multicolumn{1}{l|}{OOD Acc. 500 \textcolor{red}{subset}} &
+\multicolumn{1}{l|}{95\% Bootstrap CI} &
+\multicolumn{1}{l|}{Generalization Gap} \\ \hline
+\multicolumn{1}{|l|}{Baseline} &
+\multicolumn{1}{l|}{0.00} &
+\multicolumn{1}{l|}{0.854} &
+\multicolumn{1}{l|}{0.604} &
+\multicolumn{1}{l|}{{[}0.549, 0.662{]}} &
+\multicolumn{1}{l|}{0.252} \\ \hline
+\multicolumn{1}{|l|}{Causal invariance} &
+\multicolumn{1}{l|}{4.00} &
+\multicolumn{1}{l|}{0.843} &
+\multicolumn{1}{l|}{0.753} &
+\multicolumn{1}{l|}{{[}0.723, 0.777{]}} &
+\multicolumn{1}{l|}{0.091} \\ \hline
 \end{tabular}
+
+\vspace{4pt}
+{\footnotesize\textit{Generalization gaps are computed against the full OOD test split; bootstrap confidence intervals are estimated on the 500-case OOD evaluation subset.}}
 \end{table}
 
-Table \ref{tab:controlled_robustness} shows that the standard multimodal model relied heavily on the spurious hospital feature: it lost 23.6 percentage points when that variable was randomized. The causal-invariance objective reduced this gap to 2.9 points, at the cost of a modest 4.0-point decrease in in-distribution accuracy. This directly supports the ACE claim that explanation quality must be evaluated jointly with intervention robustness, not only in-distribution fidelity. Figure \ref{fig:ace_benchmark_overview} provides an overview of the benchmark and its main performance/latency contrasts.
+\textcolor{red}{Table \ref{tab:controlled_robustness} shows that causal-invariance training improved mean OOD accuracy from 0.604 to 0.753, a 14.9-point gain on the 500-case OOD subset. The mean generalization gap decreased from 0.252 to 0.091, while in-distribution accuracy changed from 0.854 to 0.843, corresponding to a 1.1-point ID accuracy cost.} This directly supports the ACE claim that explanation quality must be evaluated jointly with intervention robustness, not only in-distribution fidelity. Figure \ref{fig:ace_benchmark_overview} provides an overview of the benchmark and its main performance/latency contrasts.
 
 \begin{figure}[h!]
     \centering
@@ -994,29 +1082,31 @@ Table \ref{tab:controlled_robustness} shows that the standard multimodal model r
 
 \begin{table}[h!]
 \centering
-\caption{Measured explanation properties on the baseline model (12 OOD cases)}
+\caption{Measured explanation properties on the baseline model (500 OOD cases)}
 \label{tab:controlled_methods}
 {\scriptsize
-\setlength{\tabcolsep}{3pt}
+\setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabularx}{\textwidth}{|L{2.8cm}|Y|Y|Y|L{5.2cm}|}
+\begin{tabularx}{\textwidth}{|L{3.0cm}|Y|Y|Y|Y|}
 \hline
-\textbf{Method} & \textbf{Latency (ms/case)} & \textbf{Seed Stability} & \textbf{Causal Alignment} & \textbf{Key Observation} \\ \hline
-Attention & 2.75 & 0.929 & 0.90 & Fastest method; highest mean weight on spurious hospital token (0.352) \\ \hline
-Integrated Gradients & 10.60 & 0.959 & 0.80 & Strong feature ranking, but baseline-dependent \\ \hline
-LIME & 111.54 & 0.951 & 0.90 & Local surrogate remained interpretable but much slower than intrinsic attention \\ \hline
-KernelSHAP & 294.16 & 0.968 & 0.80 & Highest computational cost even on the lightweight benchmark \\ \hline
-Modality ablation & 8.09 & 0.911 & 0.90 & Best direct exposure of spurious multimodal dependence \\ \hline
-Grad-CAM & 3.76 & 0.725 & -- & Lowest stability; leakage score 0.031 under metadata-only perturbation \\ \hline
+\textbf{Method} & \textbf{Latency (ms/case)} & \textbf{Seed Stability} & \textbf{Causal Alignment} & \textbf{Grad-CAM Leakage} \\ \hline
+Attention & 1.15 & 0.847 & 0.900 & -- \\ \hline
+Integrated Gradients & 5.62 & 0.875 & 1.000 & -- \\ \hline
+LIME & 48.75 & 0.826 & 0.900 & -- \\ \hline
+KernelSHAP & 142.66 & 0.844 & 1.000 & -- \\ \hline
+Modality ablation & 3.98 & 0.827 & 1.000 & -- \\ \hline
+Grad-CAM & 2.30 & 0.868 & -- & 0.056 \\ \hline
+Retrieval proxy & 2.35 & -- & -- & -- \\ \hline
 \end{tabularx}
 \par}
 \vspace{4pt}
-{\footnotesize\textit{Seed stability = cosine similarity across two retrained models. Causal alignment = Spearman correlation between mean attribution ranking and accuracy drop under OOD feature masking.}}
+{\footnotesize\textit{Seed stability is cosine similarity across retrained models of the same variant. Causal alignment is the Spearman correlation between mean attribution ranking and accuracy drop under OOD feature masking. Grad-CAM leakage measures metadata-induced heatmap shift after perturbing only the tabular hospital-bias feature.}}
 \end{table}
 
-These measurements in Table \ref{tab:controlled_methods} partly confirm and partly refine the survey's qualitative assessments. Attention and Grad-CAM were indeed extremely fast, but Grad-CAM was the least stable method and the only one with clear cross-modal leakage under metadata-only perturbation. KernelSHAP and LIME were respectively about 107$\times$ and 41$\times$ slower than attention on the same model, validating their poor suitability for tight interaction loops even before scaling to larger clinical backbones. \newline
+
+These measurements in Table \ref{tab:controlled_methods} partly confirm and partly refine the survey's qualitative assessments. Attention and Grad-CAM were indeed extremely fast, but Grad-CAM was the least stable method and the only one with clear cross-modal leakage under metadata-only perturbation. KernelSHAP and LIME were respectively about 124$\times$ and 42$\times$ slower than attention on the same model, validating their poor suitability for tight interaction loops even before scaling to larger clinical backbones. \newline
 These latency figures are lower bounds measured on a lightweight 28×28 architecture; absolute runtimes will scale substantially with image resolution and model depth in real clinical pipelines.
-At the same time, the controlled benchmark showed that ``post-hoc instability'' is not universal: SHAP, LIME, and Integrated Gradients all reached seed stability above 0.95 on this small architecture. The stronger empirical issue in our setting was not random drift, but spurious multimodal reliance. In the baseline model, the hospital feature caused an OOD accuracy drop of 0.517 when masked, nearly identical to the biomarker feature (0.508), and the mean attention weight on the hospital token exceeded the biomarker token. After causal training, hospital-feature importance fell to 0.005, hospital attention dropped from 0.352 to 0.179, Grad-CAM leakage decreased from 0.031 to 0.009, and retrieval evidence purity increased from 0.52 to 0.73. This supports ACE's \ref{fig:ace_spurious_signal} core argument: action-centered MXAI should prioritize intervention-aware validation, not explanation generation alone.
+At the same time, the controlled benchmark showed that ``post-hoc instability'' is not universal: LIME, KernelSHAP, and Integrated Gradients all reached seed stability above 0.82 on this lightweight architecture. The stronger empirical issue in our setting was spurious multimodal reliance. In the baseline model, the hospital feature masking caused an OOD accuracy drop of 0.429, and the mean attention weight on the hospital token exceeded the biomarker token. With the final causal-invariance weight ($\lambda=4.00$), hospital-feature reliance decreased from 0.429 to 0.279, hospital-token attention decreased from 0.410 to 0.265, Grad-CAM metadata leakage decreased from 0.056 to 0.016, and retrieval evidence purity increased from 0.413 to 0.584. This supports ACE's core argument: action-centered MXAI should prioritize intervention-aware validation, not explanation generation alone.
 
 \begin{figure}[h!]
     \centering
@@ -1024,10 +1114,10 @@ At the same time, the controlled benchmark showed that ``post-hoc instability'' 
     \caption{Effect of causal training on spurious multimodal reliance. Left: accuracy drop after feature masking on the OOD split. Right: mean attention redistribution from the non-causal hospital token toward clinically meaningful covariates.}
     \label{fig:ace_spurious_signal}
 \end{figure}
-Figure 4 shows two complementary effects of causal training. On the left, feature masking reveals that hospital-feature reliance drops from 0.517 to 0.005 accuracy points after causal training, while biomarker reliance is preserved (0.508 → 0.496), confirming that the causal objective selectively suppresses spurious dependence without degrading clinically meaningful signal. On the right, attention redistribution shows that the hospital token weight drops from 0.352 to 0.179, while image and biomarker tokens gain relative weight, a direct visualization of explanation alignment improving alongside model robustness
+Figure \ref{fig:ace_spurious_signal} shows two complementary effects of causal training. On the left, feature masking reveals that hospital-feature reliance drops from 0.429 to 0.279 after causal training, while clinically meaningful covariates remain influential. On the right, attention redistribution shows that the hospital token weight drops from 0.410 to 0.265, while image and biomarker tokens gain relative weight, visualizing improved explanation alignment alongside model robustness.
 \section{Evaluation Metrics and Benchmarks}
 
-Evaluation is the bottleneck of clinically viable MXAI. In healthcare, an explanation may appear faithful under standard proxy metrics while still failling to support diagnosis, misrepresenting cross-modal evidence, or breaking under distribution shift and model updates. For this reason, recent work has moved beyond purely technical XAI scores toward clinician-centered, multimodal, and regulatory evaluation criteria. This section organizes those criteria and shows how they align with the action-centered view proposed in this survey. Table \ref{tab:evaluation_frameworks} situates these requirements alongside recent clinical, multimodal, and causal evaluation frameworks for MXAI.
+Evaluation is the bottleneck of clinically viable MXAI. In healthcare, an explanation may appear faithful under standard proxy metrics while still failing to support diagnosis, misrepresenting cross-modal evidence, or breaking under distribution shift and model updates. For this reason, recent work has moved beyond purely technical XAI scores toward clinician-centered, multimodal, and regulatory evaluation criteria. This section organizes those criteria and shows how they align with the action-centered view proposed in this survey. Table \ref{tab:evaluation_frameworks} situates these requirements alongside recent clinical, multimodal, and causal evaluation frameworks for MXAI.
 
 \subsection{Clinical-Centric Evaluation}
 
@@ -1064,44 +1154,59 @@ FDA's 2025 draft guidance highlights the need for \cite{fda2025draft}:
 \caption{Operationalizing FDA-Oriented Requirements for MXAI Evaluation}
 \label{tab:fda_operational_metrics}
 {\scriptsize
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.2}
-\begin{tabularx}{\textwidth}{|L{2.3cm}|L{3.8cm}|L{4.2cm}|X|}
+\begin{tabularx}{\textwidth}{|L{2.0cm}|L{2.5cm}|L{3.0cm}|L{3.0cm}|X|}
 \hline
-\textbf{FDA-Oriented Requirement} & \textbf{MXAI Evaluation Question} & \textbf{Operational Metric} & \textbf{ACE-Relevant Action} \\ \hline
+\textbf{FDA-Oriented Requirement} &
+\textbf{MXAI Evaluation Question} &
+\textbf{Operational Metric} &
+\textbf{Suggested Reporting Threshold} &
+\textbf{\textcolor{red}{ACE-Relevant Action}} \\ \hline
 
 Explainability validation &
 Can clinicians correctly interpret and use the explanation? &
 Clinician comprehension score, decision-change rate, time-to-interpretation, explanation usefulness rating &
-Triage, Diagnosis, Treatment \\ \hline
+Report median and IQR; predefine task-specific non-inferiority criteria against standard clinical review &
+\textcolor{red}{Triage, Diagnosis, Treatment selection} \\ \hline
 
 Bias documentation &
 Does the explanation remain reliable across patient subgroups and acquisition sites? &
 Subgroup explanation stability, subgroup fidelity gap, demographic performance gap, site-specific attribution shift &
-Diagnosis, Audit, Monitoring \\ \hline
+Report subgroup gaps with confidence intervals; flag clinically meaningful disparities across protected groups or acquisition sites &
+\textcolor{red}{Diagnosis, Audit, Monitoring} \\ \hline
 
 Uncertainty quantification &
 Does the system indicate when its prediction or explanation may be unreliable? &
 Prediction calibration error, explanation confidence interval, attribution variance across seeds or perturbations, abstention rate under uncertainty &
-Triage, Audit, Monitoring \\ \hline
+Report 95\% confidence intervals; define abstention or escalation rules for high-uncertainty cases &
+\textcolor{red}{Triage, Audit, Monitoring} \\ \hline
 
 Lifecycle monitoring &
 Does explanation behavior remain stable after deployment or model updates? &
 Update-to-update explanation drift, temporal attribution shift, OOD-trigger rate, recalibration frequency &
-Audit, Monitoring \\ \hline
+Predefine drift thresholds and revalidation triggers; report update-to-update explanation change before redeployment &
+\textcolor{red}{Audit, Monitoring} \\ \hline
 
 Traceability and documentation &
 Can the explanation be reproduced and defended after the decision? &
 Stored explanation record, model version, input provenance, retrieval evidence log, explanation-generation parameters &
-Audit \\ \hline
+Require versioned logs for all audited cases; record model version, input hash, seed, explainer parameters, and evidence sources &
+\textcolor{red}{Audit} \\ \hline
+
+Fairness of explanations &
+Are equivalent clinical findings explained consistently across demographic groups and sites? &
+Subgroup attribution agreement, subgroup causal-alignment gap, explanation calibration gap, subgroup leakage shift &
+Report explanation-level fairness metrics by subgroup; investigate unexplained attribution gaps before clinical deployment &
+\textcolor{red}{Triage, Diagnosis, Treatment selection, Audit, Monitoring} \\ \hline
 
 \end{tabularx}
 \par}
 \end{table}
 
 Table~\ref{tab:fda_operational_metrics} translates FDA-oriented transparency, bias, uncertainty, lifecycle, and documentation requirements into operational metrics that can be incorporated into MXAI evaluation pipelines.
-
 These metrics are not currently reported in standard MXAI evaluations but are directly measurable within the ACE benchmark framework introduced in Section 6.
+\textcolor{red}{Fairness should be evaluated not only at the predictive level but also at the explanation level: the same clinical evidence should not receive systematically different attribution across demographic groups, acquisition sites, or protected subgroups without clinical justification. }
 
 \begin{table}[h!]
 \centering
@@ -1124,7 +1229,7 @@ MuCR \cite{li2025multimodalcausalreasoningbenchmark} & Causal reasoning & Cross-
 \subsection{ACE Cross-Dataset Stress-Test Benchmark}
 \label{sec:ace_cross_dataset_suite}
 
-To complement the single-domain proof-of-concept from Section \ref{sec:controlled_experiments}, we ran the same ACE evaluation pipeline on six public MedMNIST derivatives spanning hematology, dermatology, retinal OCT, abdominal CT, histopathology, and chest X-ray screening as described in \ref{tab:ace_suite_domains}. Each dataset was recast as a controlled multimodal task by pairing the image with the same four synthetic clinical covariates used in Section \ref{sec:controlled_experiments}, including a deliberately spurious hospital feature that was correlated with the label during training and randomized at test time. This cross-dataset suite was implemented in \texttt{experiments/mxai\_benchmark\_suite.py}, trained the same multimodal fusion backbone for three epochs on 1,500 training cases per domain, and measured explanations on eight OOD test cases per dataset.
+To complement the single-domain proof-of-concept from Section \ref{sec:controlled_experiments}, we ran the same ACE evaluation pipeline on six public MedMNIST derivatives spanning hematology, dermatology, retinal OCT, abdominal CT, histopathology, and chest X-ray screening as described in \ref{tab:ace_suite_domains}. Each dataset was recast as a controlled multimodal task by pairing the image with the same four synthetic clinical covariates used in Section \ref{sec:controlled_experiments}, including a deliberately spurious hospital feature that was correlated with the label during training and randomized at test time. This cross-dataset suite was implemented in the public reproducibility repository \url{https://github.com/MathieuR-L/action-centered-XAI}, trained the same multimodal fusion backbone for three epochs on 1,500 training cases per domain, and measured explanations on eight OOD test cases per dataset.
 
 \begin{table}[h!]
 \centering
@@ -1167,14 +1272,23 @@ This larger public benchmark does not replace hospital-scale validation or reade
 
 This section highlights the open challenges in MXAI, including scalability, causality, fairness, the need for human-centric explanations, and the limitations of current methods. It also discusses promising future research directions, incorporating recent trends such as neuro-symbolic AI, federated learning, adversarial robustness, and the application of XAI to multimodal foundation models and time-series data.
 
-\subsection{Systemic Failures of Model-Centric MXAI}
+\subsection{Limitations of the Present Work}
+The ACE benchmark provides controlled, reproducible evidence but has four boundaries that must be stated explicitly.
+Synthetic covariates and artificial shift. The spurious hospital feature was manually injected and randomized at test time. This controls the experimental conditions but does not reproduce the complexity of real clinical confounders, which are rarely this clean or well-defined.
+Low-resolution architecture. All latency figures were measured on 28×28 images with a lightweight backbone. These are lower bounds. Full-resolution clinical pipelines (CT slices, whole-slide histopathology) will scale runtimes substantially, and the latency ranking across methods may not be fully preserved.
+No clinician validation. No reader study was conducted. The benchmark measures technical properties — latency, causal alignment, seed stability — not whether clinicians find the explanations interpretable, actionable, or trustworthy in practice.
+Single-institution, single-domain origin. Despite the six-domain cross-dataset extension, all experiments used synthetic multimodal augmentation of public datasets. Real multi-site variability, EHR integration, and federated deployment constraints are not captured. These boundaries define a clear validation roadmap. The next necessary steps are: (1) scaling the causal-invariance objective to full-resolution clinical pipelines to test whether the latency ranking holds at CT or whole-slide resolution; (2) conducting clinician reader studies to connect the technical ACE metrics to explanation usefulness in practice; and (3) extending the benchmark to real multi-site EHR data with naturalistic confounders. The controlled benchmark is offered not as a substitute for these steps, but as a reproducible foundation on which they can build.
+
+\subsection{Open Challenges for the Field}
+
+%\subsection{Systemic Failures of Model-Centric MXAI}
 
 The ACE framework highlights three recurring deployment gaps:
 
 \textbf{Failure 1: Regulatory Misalignment.} FDA lifecycle guidance emphasizes change management and validation for AI-enabled device software, while the EU AI Act foregrounds human oversight and accessible information \cite{fda2025draft,VANKOLFSCHOOTEN2024105152}. In practice, many MXAI papers still report static explanation snapshots without a protocol for revalidation after model updates or distribution shift.\newline 
 %Figure \ref{fig:lifecycle_framework} discribes a typical workflow where this could fail.
 Figure \ref{fig:lifecycle_framework} illustrates a typical healthcare AI lifecycle and highlights three points where current MXAI practice fails regulatory requirements: at training time, where causal validation is absent (Failure 1); at deployment, where explanation latency is unconstrained (Failure 2); and at monitoring, where no revalidation protocol exists after model updates (Failure 3). These three gaps motivate the research priorities detailed in Section 8.2
-\textbf{Failure 2: Computational-Clinical Mismatch.} In teleoperation and remote surgery, end-to-end latency is itself a safety consideration \cite{anvari2005latency,moustris2023telesurgery5g}. Our controlled benchmark reinforces this point: perturbational explainers were 41--107$\times$ slower than intrinsic attention on the same lightweight multimodal model, even before scaling to larger clinical backbones.
+\textbf{Failure 2: Computational-Clinical Mismatch.} In teleoperation and remote surgery, end-to-end latency is itself a safety consideration \cite{anvari2005latency,moustris2023telesurgery5g}. Our controlled benchmark reinforces this point: perturbational explainers were 42--124$\times$ slower than intrinsic attention on the same lightweight multimodal model, even before scaling to larger clinical backbones.
 
 \textbf{Failure 3: Clinical Validity Remains Weakly Tested.} Jin et al.\ showed that many explanation methods on a multimodal medical imaging task failed clinician-oriented requirements \cite{Jin_2022}, and recent human-centered evaluation surveys continue to report a gap between technical metrics and clinical usefulness \cite{gambetti2025surveyhumancenteredevaluationexplainable}. Our benchmark adds a complementary finding: cross-modal leakage and spurious feature reliance can persist even when several explanation methods look stable under simple seed-to-seed comparisons.
 \begin{figure}[h!]
@@ -1185,20 +1299,19 @@ Figure \ref{fig:lifecycle_framework} illustrates a typical healthcare AI lifecyc
 \end{figure}
 
 
-\subsection{Research Priorities and Future Directions}
+\subsection{Research Priorities}
 %{Future Directions (2025-2027)}
 The three systemic failures identified in Section 8.1 directly motivate the following research priorities. Regulatory misalignment calls for regulatory-grade validation frameworks, primarily affecting the Audit and Monitoring actions under ACE. The computational-clinical mismatch calls for efficient explanation pipelines, most critical for Triage and Intraoperative Assistance. Finally, the weak clinical validity testing calls for causal attribution protocols, directly impacting Diagnosis and Treatment selection. Rather than listing generic directions, we detail each priority below in terms of its concrete research components.
-\begin{itemize}
-    \item \textbf{Regulatory-Grade XAI:} Develop explanation methods that satisfy both FDA transparency requirements and clinician usability. Priority: uncertainty-aware explanations with calibrated confidence intervals.
+
+\textbf{Regulatory-Grade XAI:} Develop explanation methods that satisfy both FDA transparency requirements and clinician usability. Priority: uncertainty-aware explanations with calibrated confidence intervals.
     
-    \item \textbf{Hallucination-Aware Deployment:} Integrate V-RAG with real-time validation against medical knowledge bases and clinician verification protocols. Research gap: balancing retrieval accuracy with latency in clinical settings.
+\textbf{Hallucination-Aware Deployment:} Integrate V-RAG with real-time validation against medical knowledge bases and clinician verification protocols. Research gap: balancing retrieval accuracy with latency in clinical settings.
     
-    \item \textbf{Standardized Clinical Benchmarks:} Expand benchmark coverage for rare disease categories, hard counterfactuals, and longitudinal drift, building on expert-driven resources such as SMMILE \cite{rieff2025smmileexpertdrivenbenchmarkmultimodal}.
+\textbf{Standardized Clinical Benchmarks:} Expand benchmark coverage for rare disease categories, hard counterfactuals, and longitudinal drift, building on expert-driven resources such as SMMILE \cite{rieff2025smmileexpertdrivenbenchmarkmultimodal}.
     
-    \item \textbf{Structured Knowledge Integration:} Combine multimodal encoders with explicit retrieval, ontologies, or semantic layers to improve traceability and federated auditability \cite{info16060435}.
+\textbf{Structured Knowledge Integration:} Combine multimodal encoders with explicit retrieval, ontologies, or semantic layers to improve traceability and federated auditability \cite{info16060435}.
     
-    \item \textbf{Human-AI Teaming Protocols:} Shift from "AI as tool" to "AI as teammate" with dynamic explanation adjustment based on clinician expertise level and task complexity.
-\end{itemize}
+\textbf{Human-AI Teaming Protocols:} Shift from "AI as tool" to "AI as teammate" with dynamic explanation adjustment based on clinician expertise level and task complexity.
 
 %\subsection{Priorities for Clinically Viable MXAI (2026--2027)}
 %The evidence surveyed here suggests three immediate priorities:
@@ -1206,7 +1319,9 @@ The three systemic failures identified in Section 8.1 directly motivate the foll
 %\textbf{2. Causal Attribution for Multimodal Models.} Move from correlational saliency toward intervention-aware validation. Early causal-intervention methods and causal reasoning benchmarks point in this direction, but clinically grounded counterfactual protocols remain limited \cite{chen2025causalclipsegunlockingclipspotential,li2025multimodalcausalreasoningbenchmark}.
 %\textbf{3. Efficient Explanation Pipelines.}Deployment in time-sensitive workflows will require lightweight or partially precomputed explanation pathways. 
 
-Our controlled benchmark showed a 41--107$\times$ runtime gap between perturbational explainers and intrinsic attention, which argues for approximation, distillation, caching, or retrieval-based evidence support rather than unconstrained online perturbation.
+Our controlled benchmark showed a 42--124$\times$ runtime gap between perturbational explainers and intrinsic attention, which argues for approximation, distillation, caching, or retrieval-based evidence support rather than unconstrained online perturbation.
+
+A key limitation of current MXAI evaluation is that fairness is usually measured only at the prediction level. Under ACE, fairness must also be action-specific and explanation-specific. For triage, fairness concerns whether urgent cases are prioritized consistently across subgroups; for diagnosis, whether equivalent clinical evidence receives equivalent explanatory weight; for treatment selection, whether counterfactual recommendations remain reliable across patient groups; for audit, whether subgroup-specific failures are traceable; and for monitoring, whether explanation drift is detected across sites and populations. 
 
 Addressing these challenges and pursuing the outlined research directions will be crucial for advancing the field of MXAI and realizing its full potential in healthcare. By developing more scalable, robust, explainable, and human-centric MXAI systems, we can enhance the transparency, trustworthiness, and effectiveness of AI in improving patient care and driving medical innovation.
 
@@ -1229,39 +1344,53 @@ The field of Multimodal Explainable AI (MXAI) has made significant strides in re
 \subsection{Reflections on the Current State of MXAI}
 
 %MXAI is a rapidly evolving field with the potential to revolutionize various domains, particularly healthcare, by making complex AI systems more transparent and understandable. While significant progress has been made in developing methods, architectures, and applications, MXAI is still in its early stages. Many current methods are computationally expensive, may not fully capture causal relationships, often produce explanations that are difficult for non-experts to understand, and are limited by the limitations described above.
-The controlled benchmark reveals a more nuanced picture than the generic claim that MXAI methods are simply immature or unstable. In our setting, seed-to-seed instability was not the dominant failure mode: KernelSHAP, LIME, and Integrated Gradients all achieved stability scores above 0.95. Instead, the main empirical weakness was spurious multimodal reliance. A non-causal hospital feature produced a 23.6-point OOD accuracy drop in the baseline model, and several explanation methods reflected this shortcut rather than clearly exposing it as non-causal. This suggests that stability alone is insufficient as a criterion for clinical explainability. Under ACE, intervention robustness and sensitivity to spurious cross-modal shortcuts should be evaluated alongside conventional explanation stability.
+The controlled benchmark reveals a more nuanced picture than the generic claim that MXAI methods are simply immature or unstable. In our setting, seed-to-seed instability was not the dominant failure mode: KernelSHAP, LIME, and Integrated Gradients all achieved stability scores above 0.82. Instead, the main empirical weakness was spurious multimodal reliance. \textcolor{red}{The baseline model showed a 0.252 mean generalization gap under the OOD hospital-shift setting}, and several explanation methods reflected this shortcut rather than clearly exposing it as non-causal. This suggests that stability alone is insufficient as a criterion for clinical explainability. Under ACE, intervention robustness and sensitivity to spurious cross-modal shortcuts should be evaluated alongside conventional explanation stability.
+
+\subsection{\textcolor{red}{Clinical Expert review as Future Validation}}
+
+ The present benchmark does not include clinician reader studies or prospective workflow evaluation. Therefore, the results should be interpreted as technical stress tests of ACE-relevant properties rather than evidence of clinical utility. A natural next step is an expert-review protocol in which clinicians assess randomized model explanations for representative ACE actions, rating interpretability, actionability, trust calibration, time-to-interpretation, and ability to detect spurious cues. Such a protocol would connect the technical metrics reported here to clinical usefulness and would help define action-specific acceptance thresholds. 
+
+
 \subsection{Important Open Questions}
 
 \begin{itemize}
     \item Our benchmark evaluated latency, stability, and causal alignment in isolation. No existing protocol combines these dimensions simultaneously under a unified regulatory framework
     \textbf{Regulatory-Grade Stress Testing:} How to develop unified protocols that measure latency, clinician comprehension, and stability simultaneously? Current benchmarks evaluate these in isolation, missing interaction effects.
-    \item Causal training reduced OOD accuracy loss from 23.6 to 2.9 points, but no ground-truth causal labels exist to formally validate whether the resulting explanations are causally correct.
+    \item \textcolor{red}{Causal training reduced the mean generalization gap from 0.252 to 0.091 in the 500-case, 20-seed benchmark, but no ground-truth causal labels exist to formally validate whether the resulting explanations are causally correct.}
     \textbf{Causal Explanation Validation:} How to validate causal explanations against clinical ground truth? Existing evaluation practice still leaves a gap between technical metrics and clinician trust \cite{gambetti2025surveyhumancenteredevaluationexplainable}.
     \item No method evaluated in our benchmark produced confidence intervals on its own explanations, clinicians currently have no way to know when an explanation is unreliable.
     \textbf{Explanation Uncertainty Quantification:} How to provide confidence intervals for explanations themselves? Clinicians need to know \textit{when} an explanation is unreliable.
     
     \item  \textbf{Federated Explanation Consistency:} 
-    How to maintain stable explanations across non-i.i.d. hospital data? Our benchmark operated on a single-institution setting, leaving open the question of whether ACE properties measured locally transfer across hospital sites. In one federated lung disease setting, explanation consistency degraded by 30–45\% \cite{Durga2025flem}, a finding that warrants replication across broader MXAI contexts before drawing general conclusions.
-    
-    %How to maintain stable explanations across non-i.i.d. hospital data? In one federated lung disease setting, explanation consistency degraded by 30–45\% across non-i.i.d. hospital data [50] — a finding that warrants replication across broader MXAI contexts before drawing general conclusions \cite{Durga2025flem}.
+    How to maintain stable explanations across non-i.i.d. hospital data? Our benchmark operated on a single-institution setting, leaving open the question of whether ACE properties measured locally transfer across hospital sites. In one preliminary report on federated lung disease, explanation consistency degraded by 30–45\% \cite{Durga2025flem}, this single-study finding requires replication before drawing general conclusions.
+        %How to maintain stable explanations across non-i.i.d. hospital data? In one federated lung disease setting, explanation consistency degraded by 30–45\% across non-i.i.d. hospital data [50] — a finding that warrants replication across broader MXAI contexts before drawing general conclusions \cite{Durga2025flem}.
 \end{itemize}
 Interdisciplinary collaboration is essential, but ACE provides a concrete basis for structuring it: AI researchers can optimize for the measurable properties (latency, causal alignment, stability) that clinicians and regulators need, rather than for abstract fidelity metrics that do not map to clinical actions.
 
 %\textbf{Interdisciplinary collaboration} among AI researchers, clinicians, ethicists, and regulators is essential to develop MXAI systems that are powerful, transparent, and trustworthy.
 
 \section{Conclusion}
-This survey introduced the Action-Centered Explainability (ACE) framework, which reframes MXAI evaluation around five clinical actions, triage, diagnosis, treatment selection, audit, and monitoring, each associated with distinct and measurable explanation requirements. By shifting from algorithmic classification to decision-oriented evaluation, ACE exposes a fundamental limitation of current practice: no single explanation method simultaneously satisfies the latency, causal validity, stability, and traceability requirements across all clinical actions.
+%This survey introduced the Action-Centered Explainability (ACE) framework, which reframes MXAI evaluation around five clinical actions, triage, diagnosis, treatment selection, audit, and monitoring, each associated with distinct and measurable explanation requirements. By shifting from algorithmic classification to decision-oriented evaluation, ACE exposes a fundamental limitation of current practice: no single explanation method simultaneously satisfies the latency, causal validity, stability, and traceability requirements across all clinical actions.
 
 
 %This survey argues that the central limitation of current MXAI practice is a \textit{taxonomic misalignment}---organizing explanation methods by algorithmic family rather than by the clinical actions they must support. By introducing the Action-Centered Explainability (ACE) framework and grounding it in a controlled multimodal benchmark, we show that different actions require different explanation properties: attention and Grad-CAM are attractive for low-latency workflows, modality ablation is stronger for intervention-style reasoning and drift exposure, and perturbational methods such as LIME and KernelSHAP remain substantially slower even on a lightweight benchmark. 
 
-The strongest empirical signal in our experiments was not random explanation drift, but spurious multimodal reliance: a causal-invariance objective improved OOD accuracy from 66.1\% to 82.9\% while reducing hospital-feature importance and metadata-induced explanation leakage.
+%\textcolor{red}{The strongest empirical signal in our experiments was not random explanation drift, but spurious multimodal reliance: in the 500-case, 20-seed benchmark, a causal-invariance objective improved mean OOD accuracy from 0.604 to 0.753 and reduced the mean generalization gap from 0.252 to 0.091.}
 
-The resulting message is practical: MXAI should be judged less by whether an explainer is ante-hoc or post-hoc, and more by whether it is fast enough, stable enough, intervention-aware enough, and traceable enough for the clinical action at hand. 
+%The resulting message is practical: MXAI should be judged less by whether an explainer is ante-hoc or post-hoc, and more by whether it is fast enough, stable enough, intervention-aware enough, and traceable enough for the clinical action at hand. 
 
 %Emerging directions---including neuro-symbolic AI, causal training, retrieval-grounded evidence, federated validation, and foundation-model explainability---offer plausible next steps, but their value will depend on whether they are evaluated under the same action-centered stress tests. Realizing MXAI's potential therefore requires not only better explanations, but better experimental protocols for proving when those explanations are clinically actionable, legally defensible, and safe.
-Among the emerging directions surveyed, three are most urgently motivated by the ACE findings: efficient explanation pipelines to close the 41–107× latency gap between perturbational and intrinsic methods, causal attribution protocols to move beyond correlational saliency, and regulatory-grade validation frameworks to align MXAI evaluation with FDA lifecycle requirements.
-The ACE framework provides a structured basis for this effort: by making the requirements of each clinical action explicit and measurable, it offers AI researchers, clinicians, and regulators a common language for deciding not just which explanation method to use, but whether any current method is ready for deployment in a given clinical context.
+%Among the emerging directions surveyed, three are most urgently motivated by the ACE findings: efficient explanation pipelines to close the 42--124$\times$ latency gap between perturbational and intrinsic methods, causal attribution protocols to move beyond correlational saliency, and regulatory-grade validation frameworks to align MXAI evaluation with FDA lifecycle requirements.
+%The ACE framework provides a structured basis for this effort: by making the requirements of each clinical action explicit and measurable, it offers AI researchers, clinicians, and regulators a common language for deciding not just which explanation method to use, but whether any current method is ready for deployment in a given clinical context.
+
+This survey introduced the Action-Centered Explainability (ACE) framework, which reframes MXAI evaluation around five clinical actions-triage, diagnosis, treatment selection, audit, and monitoring each associated with distinct and measurable explanation requirements. By shifting from algorithmic classification to decision-oriented evaluation, ACE exposes a structural limitation of current practice: no single explanation method simultaneously satisfies the latency, causal validity, stability, and traceability requirements that span all clinical actions.
+The dominant empirical signal was not abstract explanation instability, but spurious multimodal reliance: in a 500-case, 20-seed benchmark, a causal-invariance objective improved mean OOD accuracy from 0.604 to 0.753 and reduced the mean generalization gap from 0.252 to 0.091, not by improving the explainer, but by improving what the model had learned to rely on. This finding argues that explanation quality cannot be decoupled from training-time causal discipline.
+Three research priorities are most urgently motivated by these findings: Efficient explanation pipelines to close the 42–124× latency gap between perturbational and intrinsic methods, without sacrificing causal alignment; Causal attribution protocols to move beyond correlational saliency and toward interventionally valid explanations suitable for diagnosis and treatment selection; and regulatory-grade validation frameworks to align MXAI evaluation with FDA lifecycle requirements and EU AI Act transparency obligations.
+ACE does not resolve these challenges, it structures them. By making the requirements of each clinical action explicit and measurable, the framework provides AI researchers, clinicians, and regulators with a common language for deciding not just which explanation method to use, but whether any current method is genuinely ready for deployment in a given clinical context.
+
+
+
+
 
 
 
@@ -1277,3 +1406,4 @@ The ACE framework provides a structured basis for this effort: by making the req
 %%\input sn-article.bbl
 
 \end{document}
+

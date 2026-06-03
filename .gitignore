@@ -6,3 +6,4 @@ paper/*.blg
 paper/*.log
 paper/*.out
 paper/*.run.xml
+submission_ready/

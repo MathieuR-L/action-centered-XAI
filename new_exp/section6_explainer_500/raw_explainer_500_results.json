@@ -6,6 +6,7 @@
     "seed": 7,
     "explain_samples": 500,
     "train_limit": 2000,
+    "causal_lambda": 4.0,
     "device": "cuda"
   },
   "dataset": {
@@ -25,36 +26,36 @@
   "models": {
     "baseline": {
       "id_test": {
-        "accuracy": 0.8703241895261845,
-        "macro_f1": 0.3601870978513557
+        "accuracy": 0.8743142144638404,
+        "macro_f1": 0.3657427957807836
       },
       "ood_test": {
-        "accuracy": 0.6728179551122194,
-        "macro_f1": 0.2562303525752358
+        "accuracy": 0.5391521197007482,
+        "macro_f1": 0.19565159643495297
       },
       "history": {
         "epoch": 4,
-        "train_loss": 0.46848217248916624,
-        "train_acc": 0.84,
-        "val_acc": 0.8604187437686939,
-        "val_macro_f1": 0.34893592046527394
+        "train_loss": 0.5483989241123199,
+        "train_acc": 0.819,
+        "val_acc": 0.8654037886340977,
+        "val_macro_f1": 0.35802244131497496
       }
     },
     "causal_invariance": {
       "id_test": {
-        "accuracy": 0.8538653366583541,
-        "macro_f1": 0.34442014349194167
+        "accuracy": 0.8458852867830424,
+        "macro_f1": 0.3374974086117587
       },
       "ood_test": {
-        "accuracy": 0.6518703241895262,
-        "macro_f1": 0.24148630208419747
+        "accuracy": 0.7546134663341646,
+        "macro_f1": 0.2741956862743363
       },
       "history": {
         "epoch": 4,
-        "train_loss": 0.5734988057613373,
-        "train_acc": 0.8105,
-        "val_acc": 0.8404785643070788,
-        "val_macro_f1": 0.3287516174827072
+        "train_loss": 0.6082387247085571,
+        "train_acc": 0.799,
+        "val_acc": 0.8235294117647058,
+        "val_macro_f1": 0.3130251326823406
       }
     }
   },
@@ -64,84 +65,166 @@
         "name": "baseline"
       },
       "feature_importance_ood": {
-        "image": 0.009476309226932655,
-        "biomarker_score": 0.5596009975062344,
-        "age_risk": 0.5296758104738154,
-        "hospital_bias": 0.5072319201995013,
-        "admin_noise": 0.001995012468827939
+        "image": 0.0,
+        "biomarker_score": 0.21645885286783045,
+        "age_risk": 0.41396508728179554,
+        "hospital_bias": 0.429426433915212,
+        "admin_noise": 0.0
       },
       "retrieval": {
-        "latency_ms_mean": 3.4077658240203164,
-        "evidence_purity": 0.516
+        "latency_ms_mean": 2.3536006360518513,
+        "evidence_purity": 0.4132
       },
       "methods": {
         "attention": {
-          "latency_ms_mean": 1.0597388719543233,
-          "stability_cosine_mean": 0.9357958962083747,
-          "causal_alignment_spearman": 0.6999999999999998,
+          "latency_ms_mean": 1.1477255941572366,
+          "stability_cosine_mean": 0.8472360335821723,
+          "causal_alignment_spearman": 0.8999999999999998,
           "mean_scores": {
-            "image": 0.055244044091552494,
-            "biomarker_score": 0.2259631532728672,
-            "age_risk": 0.33401616287231445,
-            "hospital_bias": 0.29250225600600244,
-            "admin_noise": 0.041712870854884385
+            "image": 0.045841242264956235,
+            "biomarker_score": 0.15446438084542752,
+            "age_risk": 0.3217334826588631,
+            "hospital_bias": 0.41019891446828843,
+            "admin_noise": 0.029914255872368813
           }
         },
         "integrated_gradients": {
-          "latency_ms_mean": 5.313056608029001,
-          "stability_cosine_mean": 0.9326804519669979,
-          "causal_alignment_spearman": 0.7999999999999998,
+          "latency_ms_mean": 5.620738278186764,
+          "stability_cosine_mean": 0.8749348452189791,
+          "causal_alignment_spearman": 0.9999999999999998,
           "mean_scores": {
-            "image": 0.00010700678742159653,
-            "biomarker_score": 2.197102155015804,
-            "age_risk": 2.2654426790843716,
-            "hospital_bias": 1.5258450987757024,
-            "admin_noise": 0.008619079161661148
+            "image": 9.257321648237849e-05,
+            "biomarker_score": 1.0390620968919246,
+            "age_risk": 1.916820788675337,
+            "hospital_bias": 2.1215433388662057,
+            "admin_noise": 0.005446619415732812
           }
         },
         "lime": {
-          "latency_ms_mean": 47.57801664798171,
-          "stability_cosine_mean": 0.8979401791956144,
-          "causal_alignment_spearman": 0.7999999999999998,
+          "latency_ms_mean": 48.75412967418379,
+          "stability_cosine_mean": 0.8255830521492279,
+          "causal_alignment_spearman": 0.8999999999999998,
           "mean_scores": {
-            "image": 0.0936513199847377,
-            "biomarker_score": 2.0193970499578864,
-            "age_risk": 2.1557951533668676,
-            "hospital_bias": 1.2463915613136196,
-            "admin_noise": 0.10383202497159073
+            "image": 0.06184912072592124,
+            "biomarker_score": 0.8984336943894159,
+            "age_risk": 1.6953876769358758,
+            "hospital_bias": 2.139165594781749,
+            "admin_noise": 0.05999173064406205
           }
         },
         "kernel_shap": {
-          "latency_ms_mean": 126.61051761208728,
-          "stability_cosine_mean": 0.9038453897088504,
-          "causal_alignment_spearman": 0.8999999999999998,
+          "latency_ms_mean": 142.65765523207665,
+          "stability_cosine_mean": 0.8435890004757963,
+          "causal_alignment_spearman": 0.9999999999999998,
           "mean_scores": {
-            "image": 0.25155491878371683,
-            "biomarker_score": 2.192974189739674,
-            "age_risk": 2.3247822171282024,
-            "hospital_bias": 1.4682371443845332,
-            "admin_noise": 0.2435573207233101
+            "image": 0.1775995357116335,
+            "biomarker_score": 1.0480196965262294,
+            "age_risk": 1.8350750656891615,
+            "hospital_bias": 2.2389935069126077,
+            "admin_noise": 0.2048171323463321
           }
         },
         "modality_ablation": {
-          "latency_ms_mean": 3.685732609974366,
-          "stability_cosine_mean": 0.9308117829862026,
-          "causal_alignment_spearman": 0.8999999999999998,
+          "latency_ms_mean": 3.984213113828446,
+          "stability_cosine_mean": 0.8272271421063977,
+          "causal_alignment_spearman": 0.9999999999999998,
           "mean_scores": {
-            "image": 0.05903523363173008,
-            "biomarker_score": 4.339183479696512,
-            "age_risk": 4.492641481414437,
-            "hospital_bias": 3.1358978744447232,
-            "admin_noise": 0.026631420634686948
+            "image": 0.006323522530496121,
+            "biomarker_score": 2.012012931600213,
+            "age_risk": 3.0540199870839717,
+            "hospital_bias": 3.6308379040956495,
+            "admin_noise": 0.007391999512910843
           }
         },
         "gradcam": {
-          "latency_ms_mean": 2.163421076045779,
-          "stability_cosine_mean": 0.8345044482613482,
-          "leakage_shift_mean": 0.08002793639013506
+          "latency_ms_mean": 2.296934783953475,
+          "stability_cosine_mean": 0.8683001710661524,
+          "leakage_shift_mean": 0.056142019714932004
         }
       }
     },
-    "causal_invariance": {}
+    "causal_invariance": {
+      "variant": {
+        "name": "causal_invariance"
+      },
+      "feature_importance_ood": {
+        "image": -0.001995012468827939,
+        "biomarker_score": 0.4084788029925187,
+        "age_risk": 0.6433915211970075,
+        "hospital_bias": 0.2788029925187033,
+        "admin_noise": 0.0009975062344139696
+      },
+      "retrieval": {
+        "latency_ms_mean": 3.0121979001996806,
+        "evidence_purity": 0.5835999999999999
+      },
+      "methods": {
+        "attention": {
+          "latency_ms_mean": 1.3240661959862337,
+          "stability_cosine_mean": 0.8934513186396955,
+          "causal_alignment_spearman": 0.8999999999999998,
+          "mean_scores": {
+            "image": 0.057162169277668,
+            "biomarker_score": 0.24295762485265732,
+            "age_risk": 0.2825479533076286,
+            "hospital_bias": 0.26489424262940886,
+            "admin_noise": 0.06983314317837358
+          }
+        },
+        "integrated_gradients": {
+          "latency_ms_mean": 6.40102854615543,
+          "stability_cosine_mean": 0.8820229577488787,
+          "causal_alignment_spearman": 0.9999999999999998,
+          "mean_scores": {
+            "image": 0.00026717876547172634,
+            "biomarker_score": 1.7285534977316857,
+            "age_risk": 3.5165258873039855,
+            "hospital_bias": 1.0323689729924082,
+            "admin_noise": 0.018104059108878117
+          }
+        },
+        "lime": {
+          "latency_ms_mean": 53.2414581321209,
+          "stability_cosine_mean": 0.828892030906838,
+          "causal_alignment_spearman": 0.8999999999999998,
+          "mean_scores": {
+            "image": 0.06540456929746143,
+            "biomarker_score": 1.3814385490319692,
+            "age_risk": 3.4495522730143273,
+            "hospital_bias": 1.0915874213920906,
+            "admin_noise": 0.059270194276236
+          }
+        },
+        "kernel_shap": {
+          "latency_ms_mean": 163.1928017459286,
+          "stability_cosine_mean": 0.8506215394418293,
+          "causal_alignment_spearman": 0.9999999999999998,
+          "mean_scores": {
+            "image": 0.18301793821912724,
+            "biomarker_score": 1.5005951469419525,
+            "age_risk": 3.5392103900676593,
+            "hospital_bias": 1.2336926853787153,
+            "admin_noise": 0.19980930909072048
+          }
+        },
+        "modality_ablation": {
+          "latency_ms_mean": 4.49372835214308,
+          "stability_cosine_mean": 0.8362174454656429,
+          "causal_alignment_spearman": 0.8999999999999998,
+          "mean_scores": {
+            "image": 0.018256748095154762,
+            "biomarker_score": 2.70787389947474,
+            "age_risk": 5.118880147524178,
+            "hospital_bias": 2.3292763570696113,
+            "admin_noise": 0.00837992612272501
+          }
+        },
+        "gradcam": {
+          "latency_ms_mean": 2.5525510862935334,
+          "stability_cosine_mean": 0.8221110957819294,
+          "leakage_shift_mean": 0.016192352142441274
+        }
+      }
+    }
   }
 }
